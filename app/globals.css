@@ -1,15 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Poppins:wght@600;700&display=swap');
 @import "tailwindcss";
 
 :root {
   --background: #f7f7f7;
   --foreground: #0a0a0a;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-primary: #6b21a8;
+  --color-accent: #a45ca9;
+  --color-muted: #6b6b6b;
+  --color-subtle: #f3e6fb;
+  --color-card: #ffffff;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -19,8 +18,15 @@
   }
 }
 
+
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+h1,h2,h3,h4 {
+  font-family: var(--font-heading);
 }
