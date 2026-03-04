@@ -13,7 +13,7 @@ export default function Header() {
         {/* logo & title */}
 <div className="flex items-center gap-3 ">
     <Image src="/logo.png" alt="logo" width={40} height={40}  />
-    <Link href="/#hero" className="text-2xl sm:text-4xl text-accent font-bold ">Invoice</Link>
+    <Link href="/#hero" className="text-2xl sm:text-4xl text-accent font-bold ">Mariam Invoice</Link>
      
 </div>
 
