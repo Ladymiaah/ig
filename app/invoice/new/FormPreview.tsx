@@ -31,6 +31,10 @@ function InfoRow({ label, value }: { label: string; value: string }) {
   );
 }
 
+function formatCurrency(amount: number): string {
+  return amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
 export default function FormPreview({
   data,
   items,
@@ -64,7 +68,7 @@ export default function FormPreview({
             <img 
               src={logoUrl} 
               alt="Company Logo" 
-              className="max-w-xl h-auto object-contain " 
+              className="w-30 h-auto object-contain " 
             />
           ) : (
             <div className="w-20 h-20 bg-[#e9e4e4] border-2 border-dashed border-[#b4afaf] rounded flex items-center justify-center text-gray-400 text-[10px] mb-4">
@@ -115,16 +119,40 @@ export default function FormPreview({
             {item.itemDescription}
           </td>
           <td className="border px-1 py-2 text-center">{item.qty}</td>
-          <td className="border px-1 py-2 text-center">{item.unitPrice}</td>
+          <td className="border px-1 py-2 text-center">₦{item.unitPrice}</td>
           <td className="border px-1 py-2 text-center">{item.tax}%</td>
           <td className="border px-2 py-2 text-right font-semibold">
-            {item.amount.toFixed(2)}
+            ₦{formatCurrency(item.amount)}
           </td>
         </tr>
       ))}
     </tbody>
   </table>
 </div>
+
+      {/* Summary Section */}
+      <div className="mt-6 flex justify-end">
+        <div className="w-full md:w-1/3">
+          <div className="flex justify-between text-sm md:text-base py-2 border-t border-[#b4afaf]">
+            <span className="font-semibold text-[#4b2e2e]">Subtotal:</span>
+            <span className="text-[#4b2e2e]">
+              ₦{formatCurrency(items.reduce((sum, item) => sum + (item.amount / (1 + item.tax / 100)), 0))}
+            </span>
+          </div>
+          <div className="flex justify-between text-sm md:text-base py-2">
+            <span className="font-semibold text-[#4b2e2e]">Tax:</span>
+            <span className="text-[#4b2e2e]">
+              ₦{formatCurrency(items.reduce((sum, item) => sum + (item.amount - item.amount / (1 + item.tax / 100)), 0))}
+            </span>
+          </div>
+          <div className="flex justify-between text-base md:text-lg py-2 border-t-2 border-[#4b2e2e]">
+            <span className="font-bold text-[#4b2e2e]">Total:</span>
+            <span className="font-bold text-[#4b2e2e]">
+             ₦{formatCurrency(items.reduce((sum, item) => sum + item.amount, 0))}
+            </span>
+          </div>
+        </div>
+      </div>
 
     </div>
   );

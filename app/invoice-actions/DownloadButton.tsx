@@ -20,6 +20,14 @@ export default function DownloadButton({ targetId, fileName = "invoice.pdf" }: D
     try {
       setIsGenerating(true);
       
+      // Get element dimensions
+      const rect = element.getBoundingClientRect();
+      const widthPx = rect.width;
+      const heightPx = rect.height;
+      const dpi = 96; // Standard screen DPI
+      const widthMm = (widthPx / dpi) * 25.4;
+      const heightMm = (heightPx / dpi) * 25.4;
+      
       // Capture the element as a canvas
       const canvas = await html2canvas(element, {
         scale: 2, // Higher scale for better quality
@@ -29,12 +37,14 @@ export default function DownloadButton({ targetId, fileName = "invoice.pdf" }: D
 
       const imgData = canvas.toDataURL("image/png");
       
-      // Initialize PDF (Portrait, Millimeters, A4)
-      const pdf = new jsPDF("p", "mm", "a4");
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+      // Initialize PDF with custom size matching the element
+      const pdf = new jsPDF({
+        orientation: widthMm > heightMm ? 'l' : 'p',
+        unit: 'mm',
+        format: [widthMm, heightMm]
+      });
 
-      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+      pdf.addImage(imgData, "PNG", 0, 0, widthMm, heightMm);
       pdf.save(fileName);
     } catch (error) {
       console.error("PDF Generation Error:", error);

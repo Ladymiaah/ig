@@ -7,6 +7,7 @@ import FormTable from "./FormTable";
 import ImageUpload from "./ImageUpload";
 import DownloadButton from "@/app/invoice-actions/DownloadButton";
 import PrintButton from "@/app/invoice-actions/PrintButton";
+import ResetButton from "@/app/invoice-actions/ResetButton";
 
 export default function InvoicePage() {
   const [isPreview, setIsPreview] = useState(false);

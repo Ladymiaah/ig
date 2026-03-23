@@ -15,6 +15,10 @@ type FormTableProps = {
   setTableData: React.Dispatch<React.SetStateAction<Row[]>>;
 };
 
+function formatCurrency(amount: number): string {
+  return amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
 export default function FormTable({ tableData, setTableData }: FormTableProps) {
   function addRow() {
     setTableData([
@@ -97,14 +101,7 @@ export default function FormTable({ tableData, setTableData }: FormTableProps) {
                   />
                 </td>
                 <td className="px-6 py-4">
-                  <input
-                    type="number"
-                    placeholder="0"
-                    name="unitPrice"
-                    value={row.unitPrice}
-                    onChange={e => handleInputChange(index, e)}
-                    className="w-24 h-10 p-2 rounded-sm shadow-xs focus:outline-none focus:ring focus:ring-primary"
-                  />
+                   <div className="text-sm font-semibold text-slate-800">₦{formatCurrency(row.unitPrice)}</div>
                 </td>
                 <td className="px-6 py-4">
                   <input
@@ -117,13 +114,7 @@ export default function FormTable({ tableData, setTableData }: FormTableProps) {
                   />
                 </td>
                 <td className="px-6 py-4">
-                  <input
-                    type="number"
-                    name="amount"
-                    value={row.amount.toFixed(2)}
-                    readOnly
-                    className="bg-transparent h-10 w-24 p-2 rounded-sm shadow-xs focus:outline-none focus:ring focus:ring-primary"
-                  />
+                  <div className="text-sm font-semibold text-slate-800">₦{formatCurrency(row.amount)}</div>
                 </td>
                 <td className="px-6 py-4">
                   <button
