@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Edit, FileText, RotateCcw } from "lucide-react";
+import { ArrowLeft, Briefcase, Edit, FileText, RotateCcw } from "lucide-react";
 import FormPreview from "./FormPreview";
 import FormTable from "./FormTable";
 
@@ -9,6 +9,7 @@ import DownloadButton from "@/app/invoice-actions/DownloadButton";
 import PrintButton from "@/app/invoice-actions/PrintButton";
 import ResetButton from "@/app/invoice-actions/ResetButton";
 import ImageUpload from "@/app/invoice-actions/ImageUpload";
+import Link from "next/link";
 
 export default function InvoicePage() {
   const [isPreview, setIsPreview] = useState(false);
@@ -102,7 +103,11 @@ export default function InvoicePage() {
       {/* HEADER */}
       <div className="flex flex-col gap-2 md:flex-row md:justify-between md:items-center">
         <div className="w-full">
+          
           <div className="flex items-center gap-2 flex-wrap">
+            <Link href="/InvoiceTemplate"  className="gap-2 font-semibold rounded-lg py-2 px-4 border border-[#b4afaf]">
+                <ArrowLeft size={24} />
+            </Link>
             <button 
               onClick={() => setIsPreview(!isPreview)}
               className="flex items-center justify-center gap-2 font-semibold rounded-lg py-2 px-4 border border-[#b4afaf]"
@@ -128,6 +133,7 @@ export default function InvoicePage() {
             <PrintButton/>
 
             <ResetButton onReset={handleReset} />
+            
             </div>
           
         </div>

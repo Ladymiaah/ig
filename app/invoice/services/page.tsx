@@ -9,6 +9,7 @@ import DownloadButton from "@/app/invoice-actions/DownloadButton";
 import PrintButton from "@/app/invoice-actions/PrintButton";
 import ResetButton from "@/app/invoice-actions/ResetButton";
 import ImageUpload from "@/app/invoice-actions/ImageUpload";
+import Link from "next/link";
 
 export default function ServiceInvoicePage() {
   const [isPreview, setIsPreview] = useState(false);
@@ -93,7 +94,9 @@ export default function ServiceInvoicePage() {
         <div className="flex items-center gap-3">
           {/* Using your requested Hex Colors here */}
           <div className="bg-[#f3e8ff] p-2 rounded-lg text-[#7e22ce]">
-            <Briefcase size={24} />
+            <Link href="/InvoiceTemplate" >
+                <Briefcase size={24} />
+            </Link>
           </div>
           <div>
             <h1 className="text-xl font-bold text-[#334155]">Service Invoice</h1>

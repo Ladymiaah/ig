@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Plus, Trash2 } from "lucide-react";
+import { Plus, XCircle } from "lucide-react";
 
 interface SpecialtyTableProps {
   tableData: any[];
@@ -46,10 +46,10 @@ export default function SpecialtyFormTable({
     <div className="space-y-4">
       {/* HEADER */}
       <div className="hidden md:grid grid-cols-12 gap-4 px-4 py-2 text-[10px] font-black uppercase tracking-widest text-[#94a3b8]">
-        <div className="col-span-6">Description</div>
-        <div className="col-span-2 text-center">{qtyLabel}</div>
+       <div className="col-span-6">Description</div>
+        <div className="col-span-2 text-center">{type === "progress" ? "Hrs" : "Qty"}</div>
         <div className="col-span-2 text-right">Rate</div>
-        <div className="col-span-2 text-right">{totalLabel}</div>
+        <div className="col-span-2 text-right">{type === "credit" ? "Credit" : "Total"}</div>
       </div>
 
       {/* ROWS */}
@@ -93,7 +93,7 @@ export default function SpecialtyFormTable({
                 className="text-[#fca5a5] hover:text-[#ef4444] transition-colors p-1"
                 title="Remove Item"
                >
-                <Trash2 size={16} />
+                <XCircle size={16} />
                </button>
             </div>
           </div>

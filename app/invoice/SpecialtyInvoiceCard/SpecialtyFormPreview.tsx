@@ -3,6 +3,7 @@
 export default function SpecialtyFormPreview({ data, items, specialtyType, specialtyColor, total }: any) {
   return (
     <div className="bg-[#ffffff] max-w-4xl mx-auto rounded-3xl shadow-2xl overflow-hidden border border-[#e2e8f0] flex flex-col md:flex-row min-h-[800px]">
+      
       {/* SIDEBAR */}
       <div className="w-full md:w-16 flex md:flex-col items-center justify-between p-6" style={{ backgroundColor: specialtyColor }}>
          <div className="rotate-0 md:-rotate-90 whitespace-nowrap text-[#ffffff] font-black tracking-[0.3em] uppercase text-xl opacity-40">
@@ -12,9 +13,10 @@ export default function SpecialtyFormPreview({ data, items, specialtyType, speci
       </div>
 
       <div className="flex-1 p-10 relative">
-        {/* OVERDUE STAMP */}
+        
+        {/* PAST DUE STAMP */}
         {specialtyType === "past-due" && (
-          <div className="absolute top-40 right-10 border-[10px] border-[#dc2626] p-4 rotate-[-15deg] opacity-10 z-0">
+          <div className="absolute top-40 right-10 border-[10px] border-[#dc2626] p-4 rotate-[-15deg] opacity-10 z-0 select-none">
             <h1 className="text-8xl font-black text-[#dc2626]">PAST DUE</h1>
           </div>
         )}
@@ -44,22 +46,40 @@ export default function SpecialtyFormPreview({ data, items, specialtyType, speci
           </div>
         </div>
 
+        {/* CREDIT SPECIFIC INFO (This is what was missing!) */}
+        {specialtyType === "credit" && (
+          <div className="mb-10 p-5 rounded-2xl border-2 border-dashed border-[#ccfbf1] bg-[#f0fdfa] flex justify-between items-center">
+            <div>
+              <p className="text-[10px] font-black text-[#0d9488] uppercase tracking-widest">Refund Method</p>
+              <p className="text-sm font-bold text-[#134e4a]">{data.refundType || "Store Credit"}</p>
+            </div>
+            <div className="text-right">
+              <p className="text-[10px] font-black text-[#0d9488] uppercase tracking-widest">Original Invoice</p>
+              <p className="text-sm font-bold text-[#134e4a]">#{data.referenceInvoice || "N/A"}</p>
+            </div>
+          </div>
+        )}
+
         {/* INFO GRID */}
         <div className="grid grid-cols-2 gap-12 mb-12 border-y border-[#f1f5f9] py-8">
           <div>
             <h4 className="text-[10px] font-black text-[#94a3b8] uppercase mb-2">Billed To</h4>
             <p className="font-bold text-[#1e293b]">{data.clientCompany}</p>
-            <p className="text-[#64748b] text-sm">{data.clientAddress}</p>
+            <p className="text-[#64748b] text-sm whitespace-pre-wrap">{data.clientAddress}</p>
           </div>
           <div className="text-right">
             <h4 className="text-[10px] font-black text-[#94a3b8] uppercase mb-2">Reference</h4>
             <p className="text-[#1e293b] font-bold">#{data.invoiceNumber}</p>
             <p className="text-[#64748b] text-sm">Date: {data.invoiceDate}</p>
-            <p className="font-bold text-sm" style={{ color: specialtyColor }}>Due: {data.invoiceDueDate}</p>
+            
+            {/* FIX: Hide Due Date for Credit Memo */}
+            {specialtyType !== "credit" && (
+              <p className="font-bold text-sm" style={{ color: specialtyColor }}>Due: {data.invoiceDueDate}</p>
+            )}
           </div>
         </div>
 
-        {/* TABLE CONTENT */}
+        {/* ITEMS LIST (Same as before) */}
         <div className="mb-12">
           <div className="flex justify-between text-[10px] font-black text-[#94a3b8] uppercase border-b pb-2 mb-4">
             <span>Description</span>
@@ -78,7 +98,7 @@ export default function SpecialtyFormPreview({ data, items, specialtyType, speci
           </div>
         </div>
 
-        {/* LATE FEE DETAIL */}
+        {/* LATE FEE DETAIL (Same as before) */}
         {specialtyType === "past-due" && Number(data.lateFee) > 0 && (
           <div className="flex justify-between py-4 border-t-2 border-dashed border-[#fef2f2] text-[#dc2626]">
             <span className="text-sm font-bold">Late Payment Penalty ({data.lateFee}%)</span>
