@@ -1,10 +1,11 @@
 "use client";
 
 import { UploadCloud, Loader2 } from "lucide-react";
-import { useMessage } from "../../providers/MessageProvider";
+
 import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import axios from "axios";
+import { useMessage } from "../providers/MessageProvider";
 
 interface ImageUploadProps {
   onUpload: (url: string) => void;

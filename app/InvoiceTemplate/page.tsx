@@ -1,13 +1,16 @@
+"use client";
+
 import Link from "next/link";
-import { ArrowRight, Layout, Zap, ShoppingBag } from "lucide-react";
+import { ArrowRight, Zap, ShoppingBag } from "lucide-react";
+import SpecialtyInvoiceCard from "../invoice/SpecialtyInvoiceCard/page";
 
 export default function InvoiceTemplatePage() {
-  const templates = [
+  const mainTemplates = [
     {
       title: "Service Invoice",
       description: "Best for freelancers, consultants, and contractors.",
       link: "/invoice/services",
-      img: "/service-img.png",
+      img: "/service-img.png", // Updated to .jpg to match your files
       icon: <Zap size={18} />,
       tag: "Popular"
     },
@@ -15,17 +18,9 @@ export default function InvoiceTemplatePage() {
       title: "Retail Invoice",
       description: "Perfect for physical goods and e-commerce stores.",
       link: "/invoice/new",
-      img: "/retail-img.png",
+      img: "/retail-img.png", // Updated to .jpg to match your files
       icon: <ShoppingBag size={18} />,
       tag: "Essential"
-    },
-    {
-      title: "Event Planner",
-      description: "Itemized billing for venues, catering, and decor.",
-      link: "/invoice/new", // Update this when you create the event page
-      img: "/retail-img.png",
-      icon: <Layout size={18} />,
-      tag: "Detailed"
     }
   ];
 
@@ -41,15 +36,14 @@ export default function InvoiceTemplatePage() {
         </p>
       </div>
 
-      {/* TEMPLATE GRID */}
-      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {templates.map((template, index) => (
+      {/* MAIN TEMPLATES GRID (Service & Retail) */}
+      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 mb-20">
+        {mainTemplates.map((template, index) => (
           <div 
             key={index} 
             className="group bg-[#ffffff] rounded-2xl border border-[#e2e8f0] overflow-hidden shadow-sm hover:shadow-xl hover:border-[#7e22ce] transition-all duration-300 flex flex-col"
           >
-            {/* IMAGE PREVIEW AREA */}
-            <div className="relative aspect-[4/3] overflow-hidden bg-[#f1f5f9]">
+            <div className="relative aspect-[16/9] overflow-hidden bg-[#f1f5f9]">
               <img 
                 src={template.img} 
                 alt={template.title} 
@@ -60,7 +54,6 @@ export default function InvoiceTemplatePage() {
               </div>
             </div>
 
-            {/* CARD CONTENT */}
             <div className="p-6 flex flex-col flex-grow">
               <div className="flex items-center gap-2 mb-2 text-[#7e22ce]">
                 {template.icon}
@@ -69,8 +62,6 @@ export default function InvoiceTemplatePage() {
               <p className="text-[#64748b] text-sm leading-relaxed mb-6">
                 {template.description}
               </p>
-
-              {/* CTA BUTTON */}
               <Link 
                 href={template.link} 
                 className="mt-auto flex items-center justify-center gap-2 w-full py-3 px-4 bg-[#ffffff] border border-[#e2e8f0] text-[#1e293b] font-bold rounded-xl group-hover:bg-[#7e22ce] group-hover:text-[#ffffff] group-hover:border-[#7e22ce] transition-all"
@@ -83,7 +74,32 @@ export default function InvoiceTemplatePage() {
         ))}
       </div>
 
-      
+      {/* SPECIALTY INVOICES SECTION */}
+      <div className="max-w-6xl mx-auto">
+        <div className="mb-8 border-t border-[#e2e8f0] pt-12">
+            <h2 className="text-2xl font-bold text-[#1e293b]">Specialized Billing</h2>
+            <p className="text-[#64748b]">Advanced documents for specific project needs.</p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <SpecialtyInvoiceCard type="progress" />
+          <SpecialtyInvoiceCard type="credit" />
+          <SpecialtyInvoiceCard type="past-due" />
+        </div>
+      </div>
+
+      <div className="max-w-6xl mx-auto mt-20 text-center">
+        <p className="text-[#64748b]">
+  Need a custom layout?
+  <a 
+    href="mailto:adedoyinlawal819@gmail.com" 
+    className="text-[#7e22ce] font-bold hover:underline"
+  >
+    Contact MIG 
+  </a>
+   for bespoke development.
+</p>
+      </div>
     </div>
   );
 }
