@@ -58,7 +58,7 @@ export default function SpecialtyFormTable({
           <div key={index} className="group relative grid grid-cols-1 md:grid-cols-12 gap-4 bg-[#f8fafc] p-4 rounded-xl border border-transparent hover:border-[#e2e8f0] transition-all">
             <div className="md:col-span-6">
               <input 
-                placeholder={type === "credit" ? "Reason for credit (e.g., Return)..." : "Service or work item..."}
+                placeholder={type === "credit" ? "Reason for credit (e.g., Return)..." : "Outstanding payment..."}
                 className="w-full bg-transparent font-semibold text-[#1e293b] outline-none placeholder:text-[#cbd5e1]"
                 value={row.itemDescription}
                 onChange={(e) => updateRow(index, "itemDescription", e.target.value)}

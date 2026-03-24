@@ -144,20 +144,20 @@ export default function BaseInvoicePage({ type, accentColor, storageKey, label }
 
             <div className="bg-[#f8fafc] p-4 rounded-xl border border-[#e2e8f0] grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div><label className="text-[10px] font-bold text-[#64748b] uppercase">Invoice #</label><input value={formData.invoiceNumber} onChange={(e) => setFormData({...formData, invoiceNumber: e.target.value})} className="bg-transparent font-medium outline-none w-full" /></div>
-                {type !== "credit" && <div><label className="text-[10px] font-bold text-[#64748b] uppercase">Due Date</label><input type="date" value={formData.invoiceDueDate} onChange={(e) => setFormData({...formData, invoiceDueDate: e.target.value})} className="bg-transparent outline-none w-full" /></div>}
-                {type === "progress" && <div><label className="text-[10px] font-bold text-[#3b82f6] uppercase">Completion %</label><input type="number" value={formData.completionRate} onChange={(e) => setFormData({...formData, completionRate: e.target.value})} className="bg-transparent font-bold w-full" /></div>}
-                {type === "past-due" && <div><label className="text-[10px] font-bold text-[#dc2626] uppercase">Late Fee %</label><input type="number" value={formData.lateFee} onChange={(e) => setFormData({...formData, lateFee: e.target.value})} className="bg-transparent font-bold w-full" /></div>}
+                {type !== "credit" && <div><label className="text-[10px] font-bold text-[#64748b] uppercase">Due Date</label><input type="date" value={formData.invoiceDueDate || ""} onChange={(e) => setFormData({...formData, invoiceDueDate: e.target.value})} className="bg-transparent outline-none w-full" /></div>}
+                {type === "progress" && <div><label className="text-[10px] font-bold text-[#3b82f6] uppercase">Completion %</label><input type="number" value={formData.completionRate || "0"} onChange={(e) => setFormData({...formData, completionRate: e.target.value})} className="bg-transparent font-bold w-full" /></div>}
+                {type === "past-due" && <div><label className="text-[10px] font-bold text-[#dc2626] uppercase">Late Fee %</label><input type="number" value={formData.lateFee || "0"} onChange={(e) => setFormData({...formData, lateFee: e.target.value})} className="bg-transparent font-bold w-full" /></div>}
             </div>
 
             <SpecialtyFormTable tableData={tableData} setTableData={setTableData} accentColor={accentColor} type={type} />
             
-            <div className="pt-6 border-t border-[#e2e8f0] flex justify-between items-center">
-               <button type="button" onClick={() => setIsPreview(true)} className="text-white px-8 py-3 rounded-xl font-bold" style={{ backgroundColor: accentColor }}>View {label}</button>
+            <div className="pt-6 border-t border-[#e2e8f0] flex flex-col md:flex-row justify-between items-center">
+               <button type="button" onClick={() => setIsPreview(true)} className="order-2 md:order-1 text-white px-8 py-3 rounded-xl font-bold" style={{ backgroundColor: accentColor }}>View {label}</button>
                <div className="text-right">
                   <p className="text-[#94a3b8] text-sm">{type === "credit" ? "Total Refund" : "Grand Total"}</p>
                   <p className="text-2xl font-black" style={{ color: accentColor }}>₦{totalAmount.toLocaleString()}</p>
                </div>
-            </div>
+              </div>
           </form>
         </div>
       )}

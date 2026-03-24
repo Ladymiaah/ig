@@ -17,28 +17,34 @@ export default function SpecialtyFormPreview({ data, items, specialtyType, speci
         {/* PAST DUE STAMP */}
         {specialtyType === "past-due" && (
           <div className="absolute top-40 right-10 border-[10px] border-[#dc2626] p-4 rotate-[-15deg] opacity-10 z-0 select-none">
-            <h1 className="text-8xl font-black text-[#dc2626]">PAST DUE</h1>
+            <h1 className="text-4xl md:text-8xl font-black text-[#dc2626]">PAST DUE</h1>
           </div>
         )}
 
         {/* HEADER */}
-        <div className="flex justify-between items-start mb-16">
+{/* mobile view adjustments  */}
+        <h2 className="block md:hidden text-2xl font-bold text-[#1e293b]">{data.companyName}</h2>
+            <p className="block md:hidden text-[#64748b] text-center text-sm mb-5">{data.companyAddress}</p>
+
+            {/* desktop view adjustments */}
+        <div className="flex  justify-between items-start mb-8 md:mb-16">
           <div>
-            {data.logoUrl && <img src={data.logoUrl} className="h-12 mb-6 object-contain" />}
-            <h2 className="text-4xl font-black text-[#1e293b]">{data.companyName}</h2>
-            <p className="text-[#64748b] text-sm">{data.companyAddress}</p>
+              
+            {data.logoUrl && <img src={data.logoUrl} className="h-20 mb-6 object-contain" />}
+            <h2 className="hidden md:block md:text-4xl md:font-black text-[#1e293b]">{data.companyName}</h2>
+            <p className="hidden md:block text-[#64748b] text-sm">{data.companyAddress}</p>
           </div>
           <div className="text-right">
             <p className="text-[#94a3b8] text-[10px] font-black uppercase mb-1 tracking-widest">
               {specialtyType === "credit" ? "Amount to Refund" : "Total Outstanding"}
             </p>
-            <p className="text-5xl font-black" style={{ color: specialtyColor }}>₦{total.toLocaleString()}</p>
+            <p className="text-3xl md:text-5xl font-black" style={{ color: specialtyColor }}>₦{total.toLocaleString()}</p>
             
             {/* PROGRESS BAR */}
             {specialtyType === "progress" && (
               <div className="mt-4 text-right">
-                <p className="text-[10px] font-bold text-[#64748b] mb-1">Project Completion: {data.completionRate}%</p>
-                <div className="w-40 h-2 bg-[#f1f5f9] rounded-full ml-auto overflow-hidden">
+                <p className="text-xs font-bold text-[#64748b] mb-1">Project Completion: {data.completionRate}%</p>
+                <div className=" w-40 h-2 bg-[#f1f5f9] rounded-full ml-auto overflow-hidden">
                   <div className="h-full transition-all duration-1000" style={{ width: `${data.completionRate}%`, backgroundColor: specialtyColor }}></div>
                 </div>
               </div>
@@ -61,7 +67,7 @@ export default function SpecialtyFormPreview({ data, items, specialtyType, speci
         )}
 
         {/* INFO GRID */}
-        <div className="grid grid-cols-2 gap-12 mb-12 border-y border-[#f1f5f9] py-8">
+        <div className="flex flex-col md:flex-row justify-between gap-12 mb-12 border-y border-[#f1f5f9] py-8">
           <div>
             <h4 className="text-[10px] font-black text-[#94a3b8] uppercase mb-2">Billed To</h4>
             <p className="font-bold text-[#1e293b]">{data.clientCompany}</p>
