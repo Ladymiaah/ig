@@ -4,10 +4,12 @@ import { useEffect, useState } from "react";
 import { Edit, FileText, RotateCcw, Briefcase } from "lucide-react";
 import FormPreview from "./FormPreview";
 import FormTable from "../new/FormTable";
-import ImageUpload from "../new/ImageUpload";
+
 import DownloadButton from "@/app/invoice-actions/DownloadButton";
 import PrintButton from "@/app/invoice-actions/PrintButton";
 import ResetButton from "@/app/invoice-actions/ResetButton";
+import ImageUpload from "@/app/invoice-actions/ImageUpload";
+import Link from "next/link";
 
 export default function ServiceInvoicePage() {
   const [isPreview, setIsPreview] = useState(false);
@@ -78,6 +80,13 @@ export default function ServiceInvoicePage() {
   // Prevent UI flickers during hydration
   if (!isMounted) return null;
 
+  const handleReset = () => {
+  // Clear specific keys so you don't accidentally wipe other app settings
+  localStorage.removeItem("service-invoice-data");
+  localStorage.removeItem("service-table-data");
+  window.location.reload();
+};      
+
   return (
     <main className="min-h-screen bg-[#f8fafc] py-10 px-6 md:px-20">
       {/* ACTION BAR */}
@@ -85,7 +94,9 @@ export default function ServiceInvoicePage() {
         <div className="flex items-center gap-3">
           {/* Using your requested Hex Colors here */}
           <div className="bg-[#f3e8ff] p-2 rounded-lg text-[#7e22ce]">
-            <Briefcase size={24} />
+            <Link href="/InvoiceTemplate" >
+                <Briefcase size={24} />
+            </Link>
           </div>
           <div>
             <h1 className="text-xl font-bold text-[#334155]">Service Invoice</h1>
@@ -108,13 +119,7 @@ export default function ServiceInvoicePage() {
             </div>
           )}
 
-          <button 
-            onClick={() => setShowResetModal(true)}
-            className="flex items-center justify-center gap-2 border border-red-500 rounded-lg px-3 py-2 text-red-500 hover:bg-red-50"
-          >
-            <RotateCcw size={16} />
-            <span className="text-sm hidden sm:inline">Reset</span>
-          </button>
+          <ResetButton onReset={handleReset} />
         </div>
       </div>
 

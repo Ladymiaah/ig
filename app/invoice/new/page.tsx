@@ -1,19 +1,20 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Edit, FileText, RotateCcw } from "lucide-react";
+import { ArrowLeft, Briefcase, Edit, FileText, RotateCcw } from "lucide-react";
 import FormPreview from "./FormPreview";
 import FormTable from "./FormTable";
-import ImageUpload from "./ImageUpload";
+
 import DownloadButton from "@/app/invoice-actions/DownloadButton";
 import PrintButton from "@/app/invoice-actions/PrintButton";
 import ResetButton from "@/app/invoice-actions/ResetButton";
+import ImageUpload from "@/app/invoice-actions/ImageUpload";
+import Link from "next/link";
 
 export default function InvoicePage() {
   const [isPreview, setIsPreview] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
-  const [showResetModal, setShowResetModal] = useState(false);
-
+  
   // 1. Initialize formData from LocalStorage
   const [formData, setFormData] = useState(() => {
     if (typeof window !== "undefined") {
@@ -90,12 +91,23 @@ export default function InvoicePage() {
   // Prevent rendering until mounted to avoid hydration mismatch
   if (!isMounted) return null;
 
+  const handleReset = () => {
+  // Clear specific keys so you don't accidentally wipe other app settings
+  localStorage.removeItem("service-invoice-data");
+  localStorage.removeItem("service-table-data");
+  window.location.reload();
+};
+
   return (
     <main className="py-6 md:py-10 px-8 md:px-20">
       {/* HEADER */}
       <div className="flex flex-col gap-2 md:flex-row md:justify-between md:items-center">
         <div className="w-full">
+          
           <div className="flex items-center gap-2 flex-wrap">
+            <Link href="/InvoiceTemplate"  className="gap-2 font-semibold rounded-lg py-2 px-4 border border-[#b4afaf]">
+                <ArrowLeft size={24} />
+            </Link>
             <button 
               onClick={() => setIsPreview(!isPreview)}
               className="flex items-center justify-center gap-2 font-semibold rounded-lg py-2 px-4 border border-[#b4afaf]"
@@ -119,48 +131,10 @@ export default function InvoicePage() {
   fileName={`Invoice_${formData.invoiceNumber || "Draft"}.pdf`} 
 />
             <PrintButton/>
-             <div className="mt-2 md:mt-0 flex items-center gap-2 md:justify-end">
-{/* Reset Confirmation Modal */}
-{showResetModal && (
-  <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-    <div className="bg-white rounded-xl p-6 max-w-sm w-full shadow-2xl border border-gray-100">
-      <div className="flex items-center gap-3 text-red-600 mb-4">
-        <RotateCcw size={24} className="animate-spin-once" />
-        <h3 className="text-lg font-bold">Clear all data?</h3>
-      </div>
-      <p className="text-slate-600 text-sm mb-6">
-        This will permanently delete all your invoice details and items. This action cannot be undone.
-      </p>
-      <div className="flex gap-3">
-        <button 
-          onClick={() => setShowResetModal(false)}
-          className="flex-1 px-4 py-2 border border-gray-200 rounded-lg font-semibold text-slate-600 hover:bg-gray-50"
-        >
-          Cancel
-        </button>
-        <button 
-          onClick={() => {
-            localStorage.clear();
-            window.location.reload();
-          }}
-          className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg font-semibold hover:bg-red-700 shadow-md shadow-red-200"
-        >
-          Yes, Reset
-        </button>
-      </div>
-    </div>
-  </div>
-)}
 
-<button 
-  onClick={() => setShowResetModal(true)} // Open the modal here
-  className="flex items-center justify-center gap-2 border border-red-500 rounded-lg px-3 py-2 text-red-500 hover:bg-red-50"
->
-  <RotateCcw size={16} />
-  <span className="text-sm hidden sm:inline">Reset</span>
-</button>
-        </div>
-          </div>
+            <ResetButton onReset={handleReset} />
+            
+            </div>
           
         </div>
 
