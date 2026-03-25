@@ -21,14 +21,15 @@ export default function HeroSection() {
             <Link href="/InvoiceTemplate" className="mt-6 inline-block bg-black shadow-xl p-4 text-[#b9b4b4] rounded-xl text-xl font-semibold hover:brightness-95 transition">
                 Create your first Invoice
             </Link>
-
+<div className=" shadow-md border-8 border-[#642eb8] rounded-xl mt-10 p-6">
             <Image
-            src="/logo.png"
+            src="/hero-img.png"
             alt="Hero Image"
-            width={800}
+            width={1500}
             height={600}
-            className="mx-auto mt-10"
+            className="mx-auto rounded-xl"
           />
+          </div>
         </div>
 
         {/* about section */}
@@ -123,6 +124,8 @@ export default function HeroSection() {
         {/* faq section */}
 
         <FAQ />
+
+       
 
     </section>
   );

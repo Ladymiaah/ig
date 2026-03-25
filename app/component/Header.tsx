@@ -11,20 +11,20 @@ export default function Header() {
     <header className="">
       <nav className="py-10 sm:py-16 px-10 sm:px-20 flex justify-between items-center ">
         {/* logo & title */}
-<div className="flex items-center gap-3 ">
-    <Image src="/logo4.png" alt="logo" width={40} height={40}  />
-    <Link href="/#hero" className="text-2xl sm:text-4xl text-accent font-bold ">Mariam Invoice</Link>
-     
-</div>
+
+    <Link href="/#hero" className="flex items-center gap-1 ">
+    <Image src="/logo.png" alt="logo" width={60} height={60}  />
+    <h1 className="text-2xl sm:text-4xl text-accent font-black ">ZIG</h1>
+    </Link>
 
 {/* navgation links */}
 
 <ul className="flex gap-6 text-sm text-muted  ">
-  <li className="hidden lg:block"><a href="#feature" className="hover:underline">Features</a></li>
-   <li className="hidden lg:block"><a href="#pricing" className="hover:underline">Pricing</a></li>
-  <li className="hidden lg:block"><a href="#about" className="hover:underline">About us</a></li>
-  <li className="hidden lg:block"><a href="#contact" className="hover:underline">Contact us</a></li>
-  <li className="hidden lg:block"><a href="#faq" className="hover:underline">FAQ</a></li>
+  <li className="hidden lg:block"><a href="/#feature" className="hover:underline">Features</a></li>
+   <li className="hidden lg:block"><a href="/#pricing" className="hover:underline">Pricing</a></li>
+  <li className="hidden lg:block"><a href="/#about" className="hover:underline">About us</a></li>
+  <li className="hidden lg:block"><a href="/#contact" className="hover:underline">Contact us</a></li>
+  <li className="hidden lg:block"><a href="/#faq" className="hover:underline">FAQ</a></li>
  
 
 

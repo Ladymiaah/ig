@@ -92,9 +92,15 @@ export default function InvoicePage() {
   if (!isMounted) return null;
 
   const handleReset = () => {
-  // Clear specific keys so you don't accidentally wipe other app settings
+  // Use the same keys you used in your useState/useEffect logic
+  localStorage.removeItem("invoice-form-data");
+  localStorage.removeItem("invoice-table-data");
+  
+  // Optional: If you also want to clear the "service" ones just in case:
   localStorage.removeItem("service-invoice-data");
   localStorage.removeItem("service-table-data");
+
+  // Force a reload to reset the state back to defaults
   window.location.reload();
 };
 
@@ -189,14 +195,7 @@ export default function InvoicePage() {
               value={formData.companyCity}
               className="bg-transparent h-8 rounded-md p-2 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-purple-500 mt-1"
             />
-            <input
-              type="text"
-              placeholder="Nigeria"
-              name="companyCountry"
-              onChange={handleInputChange}
-              value={formData.companyCountry}
-              className="bg-transparent h-8 rounded-md p-2 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-purple-500 mt-1"
-            />
+            
           </div>
 
           <div className="flex flex-col md:flex-row md:justify-between gap-6 md:gap-10">
@@ -218,7 +217,7 @@ export default function InvoicePage() {
                 value={formData.clientAddress}
                 className="bg-transparent h-8 rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-purple-500"
               />
-              {/* ... Continue with other client fields ... */}
+             
             </div>
 
             <div className="flex flex-col w-full md:w-1/2 mt-6 gap-2">

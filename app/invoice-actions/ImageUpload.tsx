@@ -58,33 +58,34 @@ export default function ImageUpload({ onUpload }: ImageUploadProps) {
   return (
     <div
       {...getRootProps()}
-      className={`p-4 border border-[#dad4d4] text-[#6b21a8] w-40 h-auto rounded-xl shadow-md 
-      flex flex-col items-center justify-center text-center gap-1 cursor-pointer transition-all
-      ${isDragActive ? "bg-purple-100 border-purple-500 scale-105" : "bg-white hover:bg-purple-50"}`}
+      /* Using #334155 (Slate 700) for text and #94a3b8 (Slate 400) for borders */
+      className={`p-4 border-2 border-dashed text-[#334155] w-44 h-auto rounded-xl shadow-sm 
+      flex flex-col items-center justify-center text-center gap-2 cursor-pointer transition-all
+      ${isDragActive ? "bg-[#f1f5f9] border-[#334155] scale-105" : "bg-white border-[#cbd5e1] hover:border-[#64748b] hover:bg-[#f8fafc]"}`}
     >
       <input {...getInputProps()} />
       
       {uploading ? (
-        <div className="flex flex-col items-center animate-pulse">
-          <Loader2 className="animate-spin mb-1" size={24} />
-          <p className="text-[10px] font-semibold">Uploading...</p>
+        <div className="flex flex-col items-center">
+          <Loader2 className="animate-spin mb-1 text-[#64748b]" size={24} />
+          <p className="text-[10px] font-bold uppercase text-[#64748b]">Uploading...</p>
         </div>
       ) : imageUrl ? (
         <div className="flex flex-col items-center">
           <img 
             src={imageUrl} 
             alt="Uploaded logo" 
-            className="w-40 h-20 object-contain rounded-md" 
+            className="w-full h-16 object-contain rounded-md" 
           />
-          <p className="text-xs  mt-1 text-gray-400 font-medium italic">Click to change</p>
-          
+          <p className="text-[10px] mt-2 text-[#94a3b8] font-bold uppercase tracking-tight">Click to change</p>
         </div>
       ) : (
         <>
-          <UploadCloud size={24} />
-          <p className="text-[11px] font-semibold leading-tight px-2">
-            {isDragActive ? "Drop here" : "Drag & Drop or Click to Upload"}
+          <UploadCloud size={26} className="text-[#64748b]" />
+          <p className="text-[11px] font-bold leading-tight px-1 uppercase tracking-tight">
+            {isDragActive ? "Drop Logo" : "Upload Business Logo"}
           </p>
+          <p className="text-[9px] text-[#94a3b8] font-medium italic">Max 5MB</p>
         </>
       )}
     </div>
