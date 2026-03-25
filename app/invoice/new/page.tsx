@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ArrowLeft, Briefcase, Edit, FileText, RotateCcw } from "lucide-react";
+import { ArrowLeft, Edit, FileText } from "lucide-react";
 import FormPreview from "./FormPreview";
 import FormTable from "./FormTable";
 
@@ -105,9 +105,11 @@ export default function InvoicePage() {
         <div className="w-full">
           
           <div className="flex items-center gap-2 flex-wrap">
-            <Link href="/InvoiceTemplate"  className="gap-2 font-semibold rounded-lg py-2 px-4 border border-[#b4afaf]">
+            {!isPreview && (
+              <Link href="/InvoiceTemplate"  className="gap-2 font-semibold rounded-lg py-2 px-4 border border-[#b4afaf]">
                 <ArrowLeft size={24} />
-            </Link>
+              </Link>
+            )}
             <button 
               onClick={() => setIsPreview(!isPreview)}
               className="flex items-center justify-center gap-2 font-semibold rounded-lg py-2 px-4 border border-[#b4afaf]"
@@ -126,11 +128,16 @@ export default function InvoicePage() {
             </button>
             
             {/* Download/Print buttons could go here */}
-            <DownloadButton 
+            {isPreview && (
+              <div className="flex gap-2"> 
+  <DownloadButton 
   targetId="invoice-download-area" 
   fileName={`Invoice_${formData.invoiceNumber || "Draft"}.pdf`} 
 />
             <PrintButton/>
+            </div>
+            )}
+          
 
             <ResetButton onReset={handleReset} />
             
@@ -217,7 +224,7 @@ export default function InvoicePage() {
             <div className="flex flex-col w-full md:w-1/2 mt-6 gap-2">
                 <div className="flex items-center justify-between">
                     <label className="text-sm font-bold text-slate-500">Invoice #</label>
-                    <input name="invoiceNumber" value={formData.invoiceNumber} onChange={handleInputChange} className="bg-transparent h-8 rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-purple-500" />
+                    <input name="invoiceNumber" placeholder="INV 001" value={formData.invoiceNumber} onChange={handleInputChange} className="bg-transparent h-8 rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-purple-500" />
                 </div>
                 <div className="flex items-center justify-between">
                     <label className="text-sm font-bold text-slate-500">Date</label>

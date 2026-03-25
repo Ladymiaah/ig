@@ -12,7 +12,7 @@ export default function Header() {
       <nav className="py-10 sm:py-16 px-10 sm:px-20 flex justify-between items-center ">
         {/* logo & title */}
 <div className="flex items-center gap-3 ">
-    <Image src="/logo.png" alt="logo" width={40} height={40}  />
+    <Image src="/logo4.png" alt="logo" width={40} height={40}  />
     <Link href="/#hero" className="text-2xl sm:text-4xl text-accent font-bold ">Mariam Invoice</Link>
      
 </div>

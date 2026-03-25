@@ -101,8 +101,17 @@ export default function FormTable({ tableData, setTableData }: FormTableProps) {
                   />
                 </td>
                 <td className="px-6 py-4">
-                   <div className="text-sm font-semibold text-slate-800">₦{formatCurrency(row.unitPrice)}</div>
-                </td>
+  <div className="flex items-center">
+    <input
+      type="number"
+      name="unitPrice"
+      value={row.unitPrice}
+      onChange={(e) => handleInputChange(index, e)}
+      className="w-24 rounded border border-slate-200 p-1 text-sm font-semibold text-slate-800 focus:border-blue-500 focus:outline-none"
+      placeholder="0.00"
+    />
+  </div>
+</td>
                 <td className="px-6 py-4">
                   <input
                     type="number"

@@ -58,24 +58,27 @@ export default function FormPreview({
 
   return (
     <div id="invoice-download-area" className=" bg-[#ffffff] max-w-3xl mx-auto rounded-lg p-4 md:p-8 border border-[#b4afaf] mt-6">
-      <h1 className="text-2xl md:text-4xl font-medium text-center">Invoice</h1>
+      
 
       {/* Company Info */}
 {/* Header Section with Logo and Company Info */}
       <div className="flex flex-col md:flex-row justify-between items-start  pb-6 border-b border-[#f9fafb]">
         <div >
+          <div className="flex justify-between items-center gap-4 md:w-100">
           {logoUrl ? (
             <img 
               src={logoUrl} 
               alt="Company Logo" 
-              className="w-30 h-auto object-contain " 
+              className="w-20 h-auto object-contain " 
             />
           ) : (
             <div className="w-20 h-20 bg-[#e9e4e4] border-2 border-dashed border-[#b4afaf] rounded flex items-center justify-center text-gray-400 text-[10px] mb-4">
               No Logo
             </div>
           )}
-          <h2 className="text-xl font-bold text-[#4b2e2e]">{companyName}</h2>
+          <h1 className="text-2xl md:text-4xl font-medium text-center">Invoice</h1>
+          </div>
+          <h2 className="text-xl font-bold text-[#4b2e2e] mt-5">{companyName}</h2>
           <p className="text-xs text-[#475569]">{companyAddress}</p>
           <p className="text-xs text-[#475569]">{companyCity}, {companyCountry}</p>
         </div>
@@ -85,7 +88,7 @@ export default function FormPreview({
 
       {/* Client + Invoice Info */}
     
-      <div className="flex flex-row gap-6 justify-between mb-6">
+      <div className="flex flex-col md:flex-row gap-6 justify-between mb-6">
         <div className="w-2/5 md:w-1/2">
           <p className="text-sm font-bold  text-[#4b2e2e]">{clientCompany}</p>
           <p className="text-xs text-[#475569]">{clientAddress}</p>
@@ -105,11 +108,11 @@ export default function FormPreview({
     <thead className="bg-[#e9e4e4]">
       <tr>
         {/* We assign fixed percentage widths so it doesn't overflow */}
-        <th className="border px-2 py-2 text-left w-[40%]">Item</th>
-        <th className="border px-1 py-2 w-[10%]">Qty</th>
+        <th className="border px-2 py-2 text-left w-[30%] md:w-[40%]">Item</th>
+        <th className="border px-1 py-2 w-[8%]">Qty</th>
         <th className="border px-1 py-2 w-[15%]">Price</th>
-        <th className="border px-1 py-2 w-[15%]">Tax</th>
-        <th className="border px-2 py-2 text-right w-[20%]">Total</th>
+        <th className="border px-1 py-2 w-[8%]">Tax</th>
+        <th className="border px-2 py-2 text-right w-[25%]">Total</th>
       </tr>
     </thead>
     <tbody>
@@ -121,7 +124,7 @@ export default function FormPreview({
           <td className="border px-1 py-2 text-center">{item.qty}</td>
           <td className="border px-1 py-2 text-center">₦{item.unitPrice}</td>
           <td className="border px-1 py-2 text-center">{item.tax}%</td>
-          <td className="border px-2 py-2 text-right font-semibold">
+          <td className="border px-2 py-2 text-right  font-semibold">
             ₦{formatCurrency(item.amount)}
           </td>
         </tr>
