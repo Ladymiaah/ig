@@ -54,7 +54,7 @@ export default function HeroSection() {
               </div>
             </div>
             <div className="hidden md:block">
-              <Image src="/logo.png" alt="About" width={400} height={250} className="rounded-xl shadow-lg" />
+              <Image src="/logo1.png" alt="About" width={400} height={250} className="rounded-xl shadow-lg" />
             </div>
           </div>
         </div>
