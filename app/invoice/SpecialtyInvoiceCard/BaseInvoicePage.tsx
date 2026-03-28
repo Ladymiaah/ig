@@ -9,6 +9,7 @@ import ImageUpload from "@/app/invoice-actions/ImageUpload";
 import SpecialtyFormPreview from "./SpecialtyFormPreview";
 import SpecialtyFormTable from "./SpecialtyFormTable";
 import Link from "next/link";
+import SaveButton from "@/app/invoice-actions/SaveButton";
 
 interface BaseProps {
   type: "progress" | "credit" | "past-due";
@@ -90,6 +91,11 @@ export default function BaseInvoicePage({ type, accentColor, storageKey, label }
           </button>
           {isPreview && <><DownloadButton targetId="invoice-download-area" fileName={`${label}.pdf`} /><PrintButton /></>}
           <ResetButton onReset={() => { localStorage.clear(); window.location.reload(); }} />
+            
+<SaveButton 
+  invoiceData={{ ...formData, items: tableData, specialtyType: type, templateType: "Specialty" }} 
+  total={totalAmount} 
+/>
         </div>
       </div>
 

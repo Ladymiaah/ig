@@ -10,6 +10,7 @@ import PrintButton from "@/app/invoice-actions/PrintButton";
 import ResetButton from "@/app/invoice-actions/ResetButton";
 import ImageUpload from "@/app/invoice-actions/ImageUpload";
 import Link from "next/link";
+import SaveButton from "@/app/invoice-actions/SaveButton";
 
 export default function InvoicePage() {
   const [isPreview, setIsPreview] = useState(false);
@@ -143,7 +144,7 @@ export default function InvoicePage() {
             <PrintButton/>
             </div>
             )}
-          
+ 
 
             <ResetButton onReset={handleReset} />
             

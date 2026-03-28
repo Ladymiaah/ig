@@ -3,7 +3,6 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "./component/Header";
 import Footer from "./component/Footer";
-import NextAuthProvider from "./providers/SessionProvider";
 import { MessageProvider } from "./providers/MessageProvider";
 
 const geistSans = Geist({
@@ -33,12 +32,11 @@ export default function RootLayout({
       >
         <Header />
 
-        <NextAuthProvider>
+        
           <MessageProvider>
             {children}
           </MessageProvider>
-        </NextAuthProvider>
-
+        
         <Footer />
       </body>
     </html>

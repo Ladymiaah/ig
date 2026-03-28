@@ -27,6 +27,7 @@ export default function InvoiceTemplatePage() {
   return (
     <div className="min-h-screen bg-[#f8fafc] px-6 sm:px-20 py-8 md:py-16">
       {/* HEADER SECTION */}
+      <div className="flex flex-col gap-4 md:gap-6 mb-12">
       <div className="max-w-6xl mx-auto mb-12">
         <h1 className="text-4xl font-extrabold text-[#1e293b] tracking-tight">
           Select a Template
@@ -34,6 +35,8 @@ export default function InvoiceTemplatePage() {
         <p className="text-[#64748b] mt-2 text-lg">
           Choose the best layout for your business needs and start billing.
         </p>
+      </div>
+      <Link href={"/invoice-actions/SavedInvoices"}> saved Invoices</Link>
       </div>
 
       {/* MAIN TEMPLATES GRID (Service & Retail) */}

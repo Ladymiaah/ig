@@ -1,8 +1,8 @@
 // lib/firebase.ts
 import { initializeApp, getApps, getApp, FirebaseApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider, Auth } from "firebase/auth";
+import { getFirestore, Firestore } from "firebase/firestore";
 
-// Define the shape of your config for TS safety
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
   authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
@@ -12,9 +12,13 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
-// Initialize Firebase
-// The type check ensures 'app' is recognized as a FirebaseApp
+// 1. Initialize the App first
 const app: FirebaseApp = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
 
+// 2. Initialize services using that app
 export const auth: Auth = getAuth(app);
+export const db: Firestore = getFirestore(app); // Moved this down here
 export const googleProvider = new GoogleAuthProvider();
+
+// Optional: Force Select Account (prevents auto-logging into the last account)
+googleProvider.setCustomParameters({ prompt: 'select_account' });

@@ -1,20 +1,25 @@
 "use client";
 
-
+import { useMessage } from "@/app/providers/MessageProvider";
 import { auth, googleProvider } from "@/lib/firebase";
 import { signInWithPopup } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { FcGoogle } from "react-icons/fc";
 
+
+
 export default function SignupPage() {
   const router = useRouter();
+  const push = useMessage();
 
   const handleGoogleSignup = async () => {
     try {
       await signInWithPopup(auth, googleProvider);
+      push("Account created successfully!", "success");
       router.push("/");
     } catch (error) {
       console.error("Signup Error:", error);
+      push("Could not complete signup. Try again later.", "error");
     }
   };
 
