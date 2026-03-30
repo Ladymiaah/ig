@@ -1,22 +1,21 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { ArrowLeft, Edit, FileText } from "lucide-react";
 import FormPreview from "./FormPreview";
 import FormTable from "./FormTable";
 
 import DownloadButton from "@/app/invoice-actions/DownloadButton";
-import PrintButton from "@/app/invoice-actions/PrintButton";
 import ResetButton from "@/app/invoice-actions/ResetButton";
+import SaveButton from "@/app/invoice-actions/SaveButton";
 import ImageUpload from "@/app/invoice-actions/ImageUpload";
 import Link from "next/link";
-import SaveButton from "@/app/invoice-actions/SaveButton";
 
 export default function InvoicePage() {
+  const invoiceRef = useRef<HTMLDivElement>(null);
   const [isPreview, setIsPreview] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   
-  // 1. Initialize formData from LocalStorage
   const [formData, setFormData] = useState(() => {
     if (typeof window !== "undefined") {
       const saved = localStorage.getItem("invoice-form-data");
@@ -29,22 +28,20 @@ export default function InvoicePage() {
         companyCountry: "",
         clientCompany: "",
         clientAddress: "",
-        clientCity: "",
-        clientCountry: "",
         invoiceNumber: "",
-        invoiceDate: "",
+        invoiceDate: new Date().toISOString().split('T')[0],
         invoiceDueDate: "",
       };
     }
   });
 
-  // 2. Initialize tableData from LocalStorage
   const [tableData, setTableData] = useState(() => {
     if (typeof window !== "undefined") {
       const saved = localStorage.getItem("invoice-table-data");
       return saved ? JSON.parse(saved) : [{
+        id: crypto.randomUUID(),
         itemDescription: "",
-        qty: 0,
+        qty: 1,
         unitPrice: 0,
         tax: 0,
         amount: 0,
@@ -52,197 +49,110 @@ export default function InvoicePage() {
     }
   });
 
-  // 3. Set mounted to true to handle Next.js hydration
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  useEffect(() => { setIsMounted(true); }, []);
 
-  // 4. Save to LocalStorage whenever data changes
   useEffect(() => {
     if (isMounted) {
       localStorage.setItem("invoice-form-data", JSON.stringify(formData));
-    }
-  }, [formData, isMounted]);
-
-  useEffect(() => {
-    if (isMounted) {
       localStorage.setItem("invoice-table-data", JSON.stringify(tableData));
     }
-  }, [tableData, isMounted]);
+  }, [formData, tableData, isMounted]);
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
+  const totalAmount = tableData.reduce((acc: number, item: any) => acc + (Number(item.amount) || 0), 0);
 
-  function handleFormSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setIsPreview(!isPreview);
-  }
-
-  const handleLogoUpload = (url: string) => {
-    setFormData((prev: any) => ({ ...prev, logoUrl: url }));
-  };
-
-  // Prevent rendering until mounted to avoid hydration mismatch
   if (!isMounted) return null;
 
-  const handleReset = () => {
-  // Use the same keys you used in your useState/useEffect logic
-  localStorage.removeItem("invoice-form-data");
-  localStorage.removeItem("invoice-table-data");
-  
-  // Optional: If you also want to clear the "service" ones just in case:
-  localStorage.removeItem("service-invoice-data");
-  localStorage.removeItem("service-table-data");
-
-  // Force a reload to reset the state back to defaults
-  window.location.reload();
-};
-
   return (
-    <main className="py-6 md:py-10 px-8 md:px-20">
-      {/* HEADER */}
-      <div className="flex flex-col gap-2 md:flex-row md:justify-between md:items-center">
-        <div className="w-full">
-          
-          <div className="flex items-center gap-2 flex-wrap">
-            {!isPreview && (
-              <Link href="/InvoiceTemplate"  className="gap-2 font-semibold rounded-lg py-2 px-4 border border-[#b4afaf]">
-                <ArrowLeft size={24} />
-              </Link>
-            )}
-            <button 
-              onClick={() => setIsPreview(!isPreview)}
-              className="flex items-center justify-center gap-2 font-semibold rounded-lg py-2 px-4 border border-[#b4afaf]"
-            >    
-              {isPreview ? (
-                <div className="flex items-center gap-2"> 
-                  <Edit size={16} />
-                  <span>Edit</span>
-                </div>
-              ) : (
-                <div className="flex items-center gap-2">
-                  <FileText size={16} />
-                  <span>Preview</span>
-                </div>
-              )}
-            </button>
-            
-            {/* Download/Print buttons could go here */}
-            {isPreview && (
-              <div className="flex gap-2"> 
-  <DownloadButton 
-  targetId="invoice-download-area" 
-  fileName={`Invoice_${formData.invoiceNumber || "Draft"}.pdf`} 
-/>
-            <PrintButton/>
-            </div>
-            )}
- 
-
-            <ResetButton onReset={handleReset} />
-            
-            </div>
-          
+    <main className="min-h-screen bg-[#f8fafc] py-6 md:py-10 px-4 md:px-20">
+      {/* ACTION BAR */}
+      <div className="max-w-5xl mx-auto mb-6 flex flex-wrap justify-between items-center gap-4 bg-[#ffffff] p-4 rounded-xl shadow-sm border border-[#e2e8f0]">
+        <div className="flex items-center gap-3">
+          {!isPreview && (
+            <Link href="/InvoiceTemplate" className="p-2 rounded-lg border border-[#e2e8f0] text-[#64748b] hover:bg-[#f1f5f9]">
+              <ArrowLeft size={20} />
+            </Link>
+          )}
+          <h1 className="text-lg font-bold text-[#334155]">Retail Invoice</h1>
         </div>
 
-       
+        <div className="flex items-center gap-2">
+          <button 
+            onClick={() => setIsPreview(!isPreview)}
+            className="flex items-center justify-center gap-2 font-semibold rounded-lg py-2 px-4 bg-[#f1f5f9] hover:bg-[#e2e8f0] transition-colors text-sm"
+          >    
+            {isPreview ? <><Edit size={16} /> Edit</> : <><FileText size={16} /> Preview</>}
+          </button>
+          
+          {isPreview && (
+            <div className="flex items-center gap-2">
+              <DownloadButton 
+                contentRef={invoiceRef} 
+                fileName={`Invoice_${formData.invoiceNumber || "Draft"}`} 
+              />
+              <SaveButton 
+                invoiceData={{ ...formData, items: tableData, templateType: "Retail" }} 
+                total={totalAmount} 
+              />
+            </div>
+          )}
+
+          <ResetButton onReset={() => {
+            localStorage.removeItem("invoice-form-data");
+            localStorage.removeItem("invoice-table-data");
+            window.location.reload();
+          }} />
+        </div>
       </div>
 
-      {/* INVOICE FORM & PREVIEW */}
+      {/* CONTENT AREA */}
       {isPreview ? (
-        <FormPreview data={formData} items={tableData} />
+        <div ref={invoiceRef} className="w-full max-w-4xl mx-auto">
+           <FormPreview data={formData} items={tableData} isPreview={false} />
+        </div>
       ) : (
-        <form onSubmit={handleFormSubmit} className="max-w-4xl mx-auto rounded-lg p-4 md:p-8 border border-[#b4afaf] mt-6 bg-white">
-          <ImageUpload onUpload={handleLogoUpload} />
-
-          <div className="flex flex-col mt-2">
-            <input
-              type="text"
-              placeholder="Your Company" 
-              name="companyName" 
-              onChange={handleInputChange}
-              value={formData.companyName}
-              className="bg-transparent h-8 rounded-md p-2 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-purple-500 mt-1 "
-            />
-            <input
-              type="text"
-              placeholder="Your Name"
-              name="invoiceAuthor"
-              onChange={handleInputChange}
-              value={formData.invoiceAuthor}
-              className="bg-transparent h-8 rounded-md p-2 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-purple-500 mt-1 "
-            />
-            {/* ... Other inputs stay exactly as you had them ... */}
-            <input
-              type="text"
-              placeholder="Company Address"
-              name="companyAddress"
-              onChange={handleInputChange}
-              value={formData.companyAddress}
-              className="bg-transparent h-8 rounded-md p-2 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-purple-500 mt-1"
-            />
-             <input
-              type="text"
-              placeholder="City, State, Zip"
-              name="companyCity"
-              onChange={handleInputChange}
-              value={formData.companyCity}
-              className="bg-transparent h-8 rounded-md p-2 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-purple-500 mt-1"
-            />
-            
-          </div>
-
-          <div className="flex flex-col md:flex-row md:justify-between gap-6 md:gap-10">
-            <div className="flex flex-col w-full md:w-1/2 mt-6">
-              <h2 className="mb-2 font-semibold">Bill To:</h2>
-              <input
-                type="text"
-                placeholder="Client Company"
-                name="clientCompany"
-                onChange={handleInputChange}
-                value={formData.clientCompany}
-                className="bg-transparent h-8  rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-purple-500"
-              />
-              <input
-                type="text"
-                placeholder="Client Address"
-                name="clientAddress"
-                onChange={handleInputChange}
-                value={formData.clientAddress}
-                className="bg-transparent h-8 rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-purple-500"
-              />
-             
+        <div className="max-w-4xl mx-auto bg-[#ffffff] rounded-2xl shadow-xl border border-[#e2e8f0] p-6 md:p-10">
+          <ImageUpload onUpload={(url) => setFormData((p:any)=>({...p, logoUrl: url}))} />
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+            <div className="space-y-4">
+              <h3 className="text-xs font-bold text-[#6b21a8] uppercase">From:</h3>
+              <input name="companyName" value={formData.companyName} onChange={(e)=>setFormData({...formData, companyName: e.target.value})} placeholder="Company Name" className="w-full text-lg font-bold outline-none border-b border-[#f1f5f9] focus:border-[#6b21a8]" />
+              <textarea name="companyAddress" value={formData.companyAddress} onChange={(e)=>setFormData({...formData, companyAddress: e.target.value})} placeholder="Address" className="w-full text-sm outline-none text-[#64748b] h-20 resize-none" />
             </div>
-
-            <div className="flex flex-col w-full md:w-1/2 mt-6 gap-2">
-                <div className="flex items-center justify-between">
-                    <label className="text-sm font-bold text-slate-500">Invoice #</label>
-                    <input name="invoiceNumber" placeholder="INV 001" value={formData.invoiceNumber} onChange={handleInputChange} className="bg-transparent h-8 rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-purple-500" />
-                </div>
-                <div className="flex items-center justify-between">
-                    <label className="text-sm font-bold text-slate-500">Date</label>
-                    <input type="date" name="invoiceDate" value={formData.invoiceDate} onChange={handleInputChange}  />
-                </div>
-                <div className="flex items-center justify-between">
-                    <label className="text-sm font-bold text-slate-500">Due Date</label>
-                    <input type="date" name="invoiceDueDate" value={formData.invoiceDueDate} onChange={handleInputChange} />
-                </div>
+            <div className="space-y-4">
+              <h3 className="text-xs font-bold text-[#6b21a8] uppercase">Bill To:</h3>
+              <input name="clientCompany" value={formData.clientCompany} onChange={(e)=>setFormData({...formData, clientCompany: e.target.value})} placeholder="Client Name" className="w-full text-lg font-bold outline-none border-b border-[#f1f5f9] focus:border-[#6b21a8]" />
+              <textarea name="clientAddress" value={formData.clientAddress} onChange={(e)=>setFormData({...formData, clientAddress: e.target.value})} placeholder="Client Address" className="w-full text-sm outline-none text-[#64748b] h-20 resize-none" />
             </div>
           </div>
 
-          <FormTable tableData={tableData} setTableData={setTableData} />
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 bg-[#f8fafc] p-5 rounded-xl border border-[#e2e8f0] mt-8">
+              <div>
+                <label className="text-[10px] font-bold text-[#94a3b8] uppercase">Invoice #</label>
+                <input value={formData.invoiceNumber} onChange={(e)=>setFormData({...formData, invoiceNumber: e.target.value})} className="bg-transparent font-bold outline-none w-full" />
+              </div>
+              <div>
+                <label className="text-[10px] font-bold text-[#94a3b8] uppercase">Date</label>
+                <input type="date" value={formData.invoiceDate} onChange={(e)=>setFormData({...formData, invoiceDate: e.target.value})} className="bg-transparent outline-none w-full" />
+              </div>
+              <div>
+                <label className="text-[10px] font-bold text-[#94a3b8] uppercase">Due Date</label>
+                <input type="date" value={formData.invoiceDueDate} onChange={(e)=>setFormData({...formData, invoiceDueDate: e.target.value})} className="bg-transparent outline-none w-full" />
+              </div>
+          </div>
 
-          <button type="submit" className="bg-[#6b21a8] text-white px-6 py-2 rounded-md mt-8 w-full md:w-auto font-semibold">
-            Preview Invoice
-          </button>
-        </form>
+          <div className="mt-8">
+            <FormTable tableData={tableData} setTableData={setTableData} />
+          </div>
+
+          <div className="mt-10 flex justify-between items-center border-t pt-6">
+            <button onClick={() => setIsPreview(true)} className="bg-[#6b21a8] text-[#ffffff] px-8 py-3 rounded-xl font-bold shadow-lg">Preview Invoice</button>
+            <div className="text-right">
+                <p className="text-[#94a3b8] text-xs font-bold uppercase">Total Due</p>
+                <p className="text-3xl font-black text-[#6b21a8]">₦{totalAmount.toLocaleString()}</p>
+            </div>
+          </div>
+        </div>
       )}
     </main>
   );

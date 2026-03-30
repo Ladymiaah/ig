@@ -38,7 +38,6 @@ function formatCurrency(amount: number): string {
 export default function ServiceFormPreview({
   data,
   items,
-  isPreview = true, 
 }: {
   data: ServiceInvoiceData;
   items: Row[];
@@ -64,15 +63,6 @@ export default function ServiceFormPreview({
 
   return (
     <div className="space-y-6">
-      {isPreview && (
-        <div className="flex gap-4 no-print"> 
-           <SaveButton 
-             invoiceData={{ ...data, items, templateType: "Service" }} 
-             total={totalCalculated} 
-           />
-        </div>
-      )}
-
       {/* INVOICE AREA */}
       <div id="invoice-download-area" className="bg-[#ffffff] max-w-4xl mx-auto rounded-2xl shadow-xl overflow-hidden border border-[#e2e8f0]">
         

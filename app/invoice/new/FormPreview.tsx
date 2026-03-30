@@ -1,167 +1,95 @@
-"use client"; // Good practice to have this if using SaveButton
+"use client";
 
-import SaveButton from "@/app/invoice-actions/SaveButton";
+import React from 'react';
 
 type Row = {
+  id: string;
   itemDescription: string;
   qty: number;
   unitPrice: number;
-  tax: number;
   amount: number;
 };
 
-type InvoiceData = {
-  logoUrl?: string;
-  companyName: string;
-  invoiceAuthor: string;
-  companyAddress: string;
-  companyCity: string;
-  companyCountry: string;
-  clientCompany: string;
-  clientAddress: string;
-  clientCity: string;
-  clientCountry: string;
-  invoiceNumber: string;
-  invoiceDate: string;
-  invoiceDueDate: string;
-};
-
-function InfoRow({ label, value }: { label: string; value: string }) {
-  return (
-    <h2>
-      <span className="text-[#64748b] font-semibold ">{label}:</span>{" "}
-      <span className="text-[#4b2e2e]">{value}</span>
-    </h2>
-  );
-}
-
-function formatCurrency(amount: number): string {
-  return amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-}
-
-export default function FormPreview({
-  data,
-  items,
-  isPreview = true, // 1. Added this prop with a default of true
-}: {
-  data: InvoiceData;
+interface FormPreviewProps {
+  data: any;
   items: Row[];
-  isPreview?: boolean; // 2. Added type definition
-}) {
-  const {
-    logoUrl,
-    companyName,
-    companyAddress,
-    companyCity,
-    companyCountry,
-    clientCompany,
-    clientAddress,
-    clientCity,
-    invoiceNumber,
-    invoiceDate,
-    invoiceDueDate,
-  } = data;
+  isPreview?: boolean; // We kept this for backward compatibility
+}
+
+export default function FormPreview({ data, items }: FormPreviewProps) {
+  const formatCurrency = (val: number) => val.toLocaleString('en-US', { minimumFractionDigits: 2 });
+  const total = items.reduce((sum, item) => sum + (Number(item.amount) || 0), 0);
 
   return (
-    <div className="max-w-3xl mx-auto mt-6">
-      {isPreview && (
-        <div className="mb-4 flex justify-end no-print">
-          <SaveButton 
-            invoiceData={{ ...data, items, templateType: "Retail" }} 
-            total={items.reduce((sum, item) => sum + item.amount, 0)} 
-          />
+    <div className="bg-[#ffffff] rounded-2xl shadow-2xl overflow-hidden border border-[#e2e8f0]">
+      {/* Header */}
+      <div className="p-8 md:p-12 border-b border-[#f1f5f9] flex justify-between items-start">
+        <div>
+          {data.logoUrl && <img src={data.logoUrl} alt="Logo" className="h-16 mb-4 object-contain" />}
+          <h1 className="text-3xl font-black text-[#1e293b] uppercase tracking-tight">{data.companyName || "Your Company"}</h1>
+          <p className="text-[#64748b] text-sm whitespace-pre-wrap max-w-sm">{data.companyAddress}</p>
         </div>
-      )}
+        <div className="text-right">
+          <h2 className="text-5xl font-black text-[#f1f5f9] absolute top-10 right-10 -z-0 select-none">INVOICE</h2>
+          <div className="relative z-10">
+            <p className="text-[#94a3b8] text-xs font-bold uppercase tracking-widest">Invoice Number</p>
+            <p className="text-xl font-bold text-[#1e293b]">#{data.invoiceNumber || "---"}</p>
+          </div>
+        </div>
+      </div>
 
-      <div id="invoice-download-area" className="bg-[#ffffff] rounded-lg p-4 md:p-8 border border-[#b4afaf]">
-        {/* Header Section with Logo and Company Info */}
-        <div className="flex flex-col md:flex-row justify-between items-start pb-6 border-b border-[#f9fafb]">
+      {/* Bill To & Dates */}
+      <div className="p-8 md:p-12 grid grid-cols-2 gap-12 bg-[#fcfcfd]">
+        <div>
+          <p className="text-[#94a3b8] text-[10px] font-bold uppercase mb-2 tracking-widest">Bill To</p>
+          <p className="text-lg font-bold text-[#1e293b]">{data.clientCompany || "Client Name"}</p>
+          <p className="text-[#64748b] text-sm whitespace-pre-wrap">{data.clientAddress}</p>
+        </div>
+        <div className="grid grid-cols-2 gap-4">
           <div>
-            <div className="flex justify-between items-center gap-4 md:w-100">
-              {logoUrl ? (
-                <img 
-                  src={logoUrl} 
-                  alt="Company Logo" 
-                  className="w-20 h-auto object-contain" 
-                />
-              ) : (
-                <div className="w-20 h-20 bg-[#e9e4e4] border-2 border-dashed border-[#b4afaf] rounded flex items-center justify-center text-gray-400 text-[10px] mb-4">
-                  No Logo
-                </div>
-              )}
-              <h1 className="text-2xl md:text-4xl font-medium text-center">Invoice</h1>
-            </div>
-            <h2 className="text-xl font-bold text-[#4b2e2e] mt-5">{companyName}</h2>
-            <p className="text-xs text-[#475569]">{companyAddress}</p>
-            <p className="text-xs text-[#475569]">{companyCity}, {companyCountry}</p>
+            <p className="text-[#94a3b8] text-[10px] font-bold uppercase mb-1">Date Issued</p>
+            <p className="font-bold text-[#1e293b]">{data.invoiceDate}</p>
+          </div>
+          <div>
+            <p className="text-[#94a3b8] text-[10px] font-bold uppercase mb-1">Due Date</p>
+            <p className="font-bold text-[#1e293b]">{data.invoiceDueDate || "---"}</p>
           </div>
         </div>
+      </div>
 
-        {/* Client + Invoice Info */}
-        <div className="flex flex-col md:flex-row gap-6 justify-between mb-6 mt-6">
-          <div className="w-2/5 md:w-1/2">
-            <p className="text-sm font-bold text-[#4b2e2e]">{clientCompany}</p>
-            <p className="text-xs text-[#475569]">{clientAddress}</p>
-            <p className="text-xs text-[#475569]">{clientCity}</p>
-          </div>
-
-          <div className="w-3/5 md:w-1/2 text-xs">
-            <InfoRow label="Invoice Number" value={invoiceNumber} />
-            <InfoRow label="Invoice Date" value={invoiceDate} />
-            <InfoRow label="Invoice Due Date" value={invoiceDueDate} />
-          </div>
-        </div>
-
-        {/* Line Items Table */}
-        <div className="mt-8">
-          <table className="w-full text-[10px] md:text-sm border-collapse table-fixed">
-            <thead className="bg-[#e9e4e4]">
-              <tr>
-                <th className="border px-2 py-2 text-left w-[30%] md:w-[40%]">Item</th>
-                <th className="border px-1 py-2 w-[8%]">Qty</th>
-                <th className="border px-1 py-2 w-[15%]">Price</th>
-                <th className="border px-1 py-2 w-[8%]">Tax</th>
-                <th className="border px-2 py-2 text-right w-[25%]">Total</th>
+      {/* Table */}
+      <div className="px-8 md:px-12 pb-12">
+        <table className="w-full text-left border-collapse">
+          <thead>
+            <tr className="border-b-2 border-[#1e293b]">
+              <th className="py-4 text-[10px] font-black uppercase text-[#1e293b]">Description</th>
+              <th className="py-4 text-[10px] font-black uppercase text-[#1e293b] text-center w-20">Qty</th>
+              <th className="py-4 text-[10px] font-black uppercase text-[#1e293b] text-right w-32">Price</th>
+              <th className="py-4 text-[10px] font-black uppercase text-[#1e293b] text-right w-32">Total</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-[#f1f5f9]">
+            {items.map((item, idx) => (
+              <tr key={item.id || idx}>
+                <td className="py-5 text-sm font-medium text-[#1e293b]">{item.itemDescription || "New Item"}</td>
+                <td className="py-5 text-sm text-center text-[#64748b]">{item.qty}</td>
+                <td className="py-5 text-sm text-right text-[#64748b]">₦{formatCurrency(item.unitPrice)}</td>
+                <td className="py-5 text-sm text-right font-bold text-[#1e293b]">₦{formatCurrency(item.amount)}</td>
               </tr>
-            </thead>
-            <tbody>
-              {items.map((item, index) => (
-                <tr key={index} className="break-inside-avoid">
-                  <td className="border px-2 py-2 truncate md:whitespace-normal">
-                    {item.itemDescription}
-                  </td>
-                  <td className="border px-1 py-2 text-center">{item.qty}</td>
-                  <td className="border px-1 py-2 text-center">₦{item.unitPrice}</td>
-                  <td className="border px-1 py-2 text-center">{item.tax}%</td>
-                  <td className="border px-2 py-2 text-right font-semibold">
-                    ₦{formatCurrency(item.amount)}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+            ))}
+          </tbody>
+        </table>
 
-        {/* Summary Section */}
-        <div className="mt-6 flex justify-end">
-          <div className="w-full md:w-1/3">
-            <div className="flex justify-between text-sm md:text-base py-2 border-t border-[#b4afaf]">
-              <span className="font-semibold text-[#4b2e2e]">Subtotal:</span>
-              <span className="text-[#4b2e2e]">
-                ₦{formatCurrency(items.reduce((sum, item) => sum + (item.amount / (1 + item.tax / 100)), 0))}
-              </span>
+        {/* Total Summary */}
+        <div className="mt-8 flex justify-end">
+          <div className="w-64 space-y-3 bg-[#f8fafc] p-6 rounded-xl border border-[#e2e8f0]">
+            <div className="flex justify-between text-sm">
+              <span className="text-[#64748b]">Subtotal</span>
+              <span className="font-bold">₦{formatCurrency(total)}</span>
             </div>
-            <div className="flex justify-between text-sm md:text-base py-2">
-              <span className="font-semibold text-[#4b2e2e]">Tax:</span>
-              <span className="text-[#4b2e2e]">
-                ₦{formatCurrency(items.reduce((sum, item) => sum + (item.amount - item.amount / (1 + item.tax / 100)), 0))}
-              </span>
-            </div>
-            <div className="flex justify-between text-base md:text-lg py-2 border-t-2 border-[#4b2e2e]">
-              <span className="font-bold text-[#4b2e2e]">Total:</span>
-              <span className="font-bold text-[#4b2e2e]">
-               ₦{formatCurrency(items.reduce((sum, item) => sum + item.amount, 0))}
-              </span>
+            <div className="flex justify-between text-lg font-black border-t border-[#e2e8f0] pt-3">
+              <span>Total Due</span>
+              <span className="text-[#6b21a8]">₦{formatCurrency(total)}</span>
             </div>
           </div>
         </div>
