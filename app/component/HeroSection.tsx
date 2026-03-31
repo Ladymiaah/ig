@@ -16,12 +16,12 @@ export default function HeroSection() {
     <section id="hero" className=" px-10 sm:px-20  mt-10">
       <div className="text-center">
             <h1 className="text-2xl sm:text-7xl text-accent">Powerful Invoicing Platform <br/> for Your Business</h1>
-            <p className="text-accent/80 mt-5 sm:text-lg mb-10">Our user-friendly invoicing platform designed to revolutionized the way you handle <br/>
+            <p className="text-accent/80 mt-5 text-sm md:text-lg mb-10">Our user-friendly invoicing platform designed to revolutionized the way you handle <br className="hidden md:block"/>
             your invoicing tasks with our intuitive interface and powerful features.</p>
             <Link href="/InvoiceTemplate" className="mt-6 inline-block bg-black shadow-xl p-4 text-[#b9b4b4] rounded-xl text-xl font-semibold hover:brightness-95 transition">
                 Create your first Invoice
             </Link>
-<div className=" shadow-md border-8 border-[#642eb8] rounded-xl mt-10 p-6">
+<div className=" shadow-md border-8 border-[#a45ca9] rounded-xl mt-10 p-6">
             <Image
             src="/hero-img.png"
             alt="Hero Image"
