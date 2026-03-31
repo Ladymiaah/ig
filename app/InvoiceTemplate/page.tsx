@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Zap, ShoppingBag } from "lucide-react";
+import { ArrowRight, Zap, ShoppingBag, FileText } from "lucide-react";
 import SpecialtyInvoiceCard from "../invoice/SpecialtyInvoiceCard/page";
 
 export default function InvoiceTemplatePage() {
@@ -25,8 +25,18 @@ export default function InvoiceTemplatePage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#f8fafc] px-6 sm:px-20 py-16">
+    <div className="min-h-screen bg-[#f8fafc] px-6 sm:px-20 py-8 md:py-16">
       {/* HEADER SECTION */}
+      <div className="flex justify-end w-full mb-8">
+  <Link 
+    href="/firebase-auth/Login" 
+    className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 shadow-sm transition-all hover:bg-slate-50 hover:text-blue-600 hover:border-blue-200 active:scale-95"
+  >
+   <FileText size={16} />
+    Saved Invoices
+  </Link>
+</div>
+      <div className="flex flex-col gap-4 md:gap-6 mb-12">
       <div className="max-w-6xl mx-auto mb-12">
         <h1 className="text-4xl font-extrabold text-[#1e293b] tracking-tight">
           Select a Template
@@ -34,6 +44,8 @@ export default function InvoiceTemplatePage() {
         <p className="text-[#64748b] mt-2 text-lg">
           Choose the best layout for your business needs and start billing.
         </p>
+      </div>
+     
       </div>
 
       {/* MAIN TEMPLATES GRID (Service & Retail) */}
@@ -78,7 +90,7 @@ export default function InvoiceTemplatePage() {
       <div className="max-w-6xl mx-auto">
         <div className="mb-8 border-t border-[#e2e8f0] pt-12">
             <h2 className="text-2xl font-bold text-[#1e293b]">Specialized Billing</h2>
-            <p className="text-[#64748b]">Advanced documents for specific project needs.</p>
+            <p className="text-[#64748b] text-sm">Advanced documents for specific project needs.</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -90,14 +102,14 @@ export default function InvoiceTemplatePage() {
 
       <div className="max-w-6xl mx-auto mt-20 text-center">
         <p className="text-[#64748b]">
-  Need a custom layout?
+  Need a custom layout? {" "}
   <a 
-    href="mailto:adedoyinlawal819@gmail.com" 
+    href="mailto:doyinmariam001@gmail.com" 
     className="text-[#7e22ce] font-bold hover:underline"
   >
-    Contact MIG 
+    Contact ZIG 
   </a>
-   for bespoke development.
+   {" "} for bespoke development.
 </p>
       </div>
     </div>

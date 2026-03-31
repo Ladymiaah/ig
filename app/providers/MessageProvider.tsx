@@ -35,7 +35,10 @@ export function MessageProvider({ children }: { children: ReactNode }) {
           <div
             key={m.id}
             className={`px-4 py-2 rounded shadow-md text-sm whitespace-nowrap transition-opacity duration-300
-              ${m.type === "error" ? "bg-red-500 text-white" : "bg-gray-800 text-white"}`}
+              ${m.type === "error" ? "bg-red-500 text-white" : "bg-gray-800 text-white"}
+              ${m.type === "success" ? "bg-green-600 text-white" : ""}
+              ${m.type === "info" ? "bg-gray-800 text-white" : ""}
+              `}
           >
             {m.text}
           </div>

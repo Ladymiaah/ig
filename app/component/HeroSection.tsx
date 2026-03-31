@@ -21,14 +21,15 @@ export default function HeroSection() {
             <Link href="/InvoiceTemplate" className="mt-6 inline-block bg-black shadow-xl p-4 text-[#b9b4b4] rounded-xl text-xl font-semibold hover:brightness-95 transition">
                 Create your first Invoice
             </Link>
-
+<div className=" shadow-md border-8 border-[#642eb8] rounded-xl mt-10 p-6">
             <Image
-            src="/logo.png"
+            src="/hero-img.png"
             alt="Hero Image"
-            width={800}
+            width={1500}
             height={600}
-            className="mx-auto mt-10"
+            className="mx-auto rounded-xl"
           />
+          </div>
         </div>
 
         {/* about section */}
@@ -53,7 +54,7 @@ export default function HeroSection() {
               </div>
             </div>
             <div className="hidden md:block">
-              <Image src="/logo.png" alt="About" width={400} height={250} className="rounded-xl shadow-lg" />
+              <Image src="/logo1.png" alt="About" width={400} height={250} className="rounded-xl shadow-lg" />
             </div>
           </div>
         </div>
@@ -75,7 +76,7 @@ export default function HeroSection() {
         </div>
 
         {/* pricing section */}
-        <div id="pricing" className="mt-12">
+        {/* <div id="pricing" className="mt-12">
           <h2 className="text-primary text-3xl font-extrabold mb-6 text-center">Pricing</h2>
           <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="border rounded-xl p-6 text-center bg-card shadow-sm">
@@ -114,7 +115,7 @@ export default function HeroSection() {
               <Link href="/SignIn" className="mt-6 inline-block bg-[#f3f3e6] text-primary px-6 py-2 rounded-lg font-semibold">Contact Sales</Link>
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* contact section */}
 
@@ -123,6 +124,8 @@ export default function HeroSection() {
         {/* faq section */}
 
         <FAQ />
+
+       
 
     </section>
   );
