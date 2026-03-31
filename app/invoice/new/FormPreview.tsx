@@ -26,7 +26,7 @@ export default function FormPreview({ data, items }: FormPreviewProps) {
       <div className="p-8 md:p-12 border-b border-[#f1f5f9] flex justify-between items-start">
         <div>
           {data.logoUrl && <img src={data.logoUrl} alt="Logo" className="h-16 mb-4 object-contain" />}
-          <h1 className="text-3xl font-black text-[#1e293b] uppercase tracking-tight">{data.companyName || "Your Company"}</h1>
+          <h1 className="text-xl  md:text-3xl font-black text-[#1e293b] uppercase tracking-tight">{data.companyName || "Your Company"}</h1>
           <p className="text-[#64748b] text-sm whitespace-pre-wrap max-w-sm">{data.companyAddress}</p>
         </div>
         <div className="text-right">
@@ -39,16 +39,16 @@ export default function FormPreview({ data, items }: FormPreviewProps) {
       </div>
 
       {/* Bill To & Dates */}
-      <div className="p-8 md:p-12 grid grid-cols-2 gap-12 bg-[#fcfcfd]">
+      <div className="p-8 md:p-12 grid md:grid-cols-2 gap-5 md:gap-12 bg-[#fcfcfd]">
         <div>
           <p className="text-[#94a3b8] text-[10px] font-bold uppercase mb-2 tracking-widest">Bill To</p>
-          <p className="text-lg font-bold text-[#1e293b]">{data.clientCompany || "Client Name"}</p>
+          <p className="md:text-lg font-bold text-[#1e293b]">{data.clientCompany || "Client Name"}</p>
           <p className="text-[#64748b] text-sm whitespace-pre-wrap">{data.clientAddress}</p>
         </div>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid md:grid-cols-2 gap-4">
           <div>
             <p className="text-[#94a3b8] text-[10px] font-bold uppercase mb-1">Date Issued</p>
-            <p className="font-bold text-[#1e293b]">{data.invoiceDate}</p>
+            <p className="font-bold  text-[#1e293b]">{data.invoiceDate}</p>
           </div>
           <div>
             <p className="text-[#94a3b8] text-[10px] font-bold uppercase mb-1">Due Date</p>

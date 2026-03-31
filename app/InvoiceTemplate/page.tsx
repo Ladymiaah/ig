@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Zap, ShoppingBag } from "lucide-react";
+import { ArrowRight, Zap, ShoppingBag, FileText } from "lucide-react";
 import SpecialtyInvoiceCard from "../invoice/SpecialtyInvoiceCard/page";
 
 export default function InvoiceTemplatePage() {
@@ -27,6 +27,15 @@ export default function InvoiceTemplatePage() {
   return (
     <div className="min-h-screen bg-[#f8fafc] px-6 sm:px-20 py-8 md:py-16">
       {/* HEADER SECTION */}
+      <div className="flex justify-end w-full mb-8">
+  <Link 
+    href="/firebase-auth/Login" 
+    className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 shadow-sm transition-all hover:bg-slate-50 hover:text-blue-600 hover:border-blue-200 active:scale-95"
+  >
+   <FileText size={16} />
+    Saved Invoices
+  </Link>
+</div>
       <div className="flex flex-col gap-4 md:gap-6 mb-12">
       <div className="max-w-6xl mx-auto mb-12">
         <h1 className="text-4xl font-extrabold text-[#1e293b] tracking-tight">
@@ -36,7 +45,7 @@ export default function InvoiceTemplatePage() {
           Choose the best layout for your business needs and start billing.
         </p>
       </div>
-      <Link href={"/invoice-actions/SavedInvoices"}> saved Invoices</Link>
+     
       </div>
 
       {/* MAIN TEMPLATES GRID (Service & Retail) */}

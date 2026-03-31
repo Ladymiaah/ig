@@ -23,7 +23,7 @@ export default function LoginPage() {
         "success"
       );
 
-      router.push("/");
+      router.push("/invoice-actions/SavedInvoices");
     } catch (error: any) {
       console.error("Login Error:", error);
 

@@ -16,7 +16,7 @@ export default function SignupPage() {
     try {
       await signInWithPopup(auth, googleProvider);
       push("Account created successfully!", "success");
-      router.push("/");
+      router.push("/invoice-actions/SavedInvoices");
     } catch (error) {
       console.error("Signup Error:", error);
       push("Could not complete signup. Try again later.", "error");

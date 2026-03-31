@@ -76,7 +76,7 @@ export default function HeroSection() {
         </div>
 
         {/* pricing section */}
-        <div id="pricing" className="mt-12">
+        {/* <div id="pricing" className="mt-12">
           <h2 className="text-primary text-3xl font-extrabold mb-6 text-center">Pricing</h2>
           <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="border rounded-xl p-6 text-center bg-card shadow-sm">
@@ -115,7 +115,7 @@ export default function HeroSection() {
               <Link href="/SignIn" className="mt-6 inline-block bg-[#f3f3e6] text-primary px-6 py-2 rounded-lg font-semibold">Contact Sales</Link>
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* contact section */}
 

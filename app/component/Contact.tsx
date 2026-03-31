@@ -50,7 +50,7 @@ export default function Contact() {
 
   return (
     <section id="contact" className="mt-12">
-      <div className="max-w-5xl mx-auto bg-card rounded-2xl p-6 sm:p-10 shadow-sm">
+      <div className="max-w-7xl mx-auto bg-card rounded-2xl p-6 sm:p-10 shadow-sm">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
           <div>
             <h2 className="text-primary text-2xl font-extrabold mb-2">Contact Us</h2>

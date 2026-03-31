@@ -32,9 +32,9 @@ export default function DownloadButton({ contentRef, fileName = "invoice" }: Dow
         <Printer size={16} />
       )}
       <span className="hidden sm:inline">
-        {isGenerating ? "Preparing PDF..." : " Save as PDF"}
+        {isGenerating ? "Preparing PDF..." : " Download PDF"}
       </span>
-      <span className="sm:hidden">{isGenerating ? "..." : "PDF"}</span>
+      <span className="sm:hidden">{isGenerating ? "..." : "DL"}</span>
     </button>
   );
 }
