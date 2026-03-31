@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
-  // 1. Set to 'class' so it ignores the user's system dark mode settings
+export default {
+
   darkMode: 'class',
 
   content: [
