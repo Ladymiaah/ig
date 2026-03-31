@@ -8,7 +8,7 @@ import { useState } from "react";
 export default function Header() {
     const [isOpen, setIsOpen] = useState(false);
   return (
-    <header className="">
+    <header className="bg-[#f7f7f7]">
       <nav className="py-10 sm:py-16 px-10 sm:px-20 flex justify-between items-center ">
         {/* logo & title */}
 
