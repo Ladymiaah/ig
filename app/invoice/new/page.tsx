@@ -58,8 +58,11 @@ export default function InvoicePage() {
     }
   }, [formData, tableData, isMounted]);
 
-  const totalAmount = tableData.reduce((acc: number, item: any) => acc + (Number(item.amount) || 0), 0);
-
+  
+const totalAmount = (tableData || []).reduce(
+  (acc: number, item: any) => acc + (Number(item.amount) || 0), 
+  0
+);
   if (!isMounted) return null;
 
   return (
