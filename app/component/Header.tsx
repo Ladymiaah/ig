@@ -13,7 +13,7 @@ export default function Header() {
         {/* logo & title */}
 
     <Link href="/#hero" className="flex items-center gap-1 ">
-    <Image src="/logo.png" alt="logo" width={60} height={60}  />
+    <Image src="/logo1.png" alt="logo" width={60} height={60}  />
     <h1 className="text-2xl sm:text-4xl text-accent font-black ">ZIG</h1>
     </Link>
 
