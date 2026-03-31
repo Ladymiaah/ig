@@ -2,11 +2,12 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f7f7f7;
-  --foreground: #0a0a0a;
+  color-scheme: light;
+  --background: #ffffff; /* Changed from #f7f7f7 to pure white for a cleaner look */
+  --foreground: #0f172a; /* Use a deep slate instead of pure black for a softer feel */
   --color-primary: #6b21a8;
   --color-accent: #a45ca9;
-  --color-muted: #6b6b6b;
+  --color-muted: #64748b;
   --color-subtle: #f3e6fb;
   --color-card: #ffffff;
 }
@@ -16,12 +17,6 @@ div::-webkit-scrollbar {
 }
 
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
 
 
 body {
