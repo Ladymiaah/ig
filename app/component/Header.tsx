@@ -11,7 +11,7 @@ export default function Header() {
   return (
     
     <header className="bg-white border-b border-slate-100 sticky top-0 z-50 w-full">
-      <nav className="max-w-7xl mx-auto py-4 sm:py-6 px-6 sm:px-12 flex justify-between items-center">
+      <nav className="max-w-8xl mx-auto py-4 sm:py-6 px-6 sm:px-12 flex justify-between items-center">
         {/* logo & title */}
         <Link href="/#hero" className="flex items-center gap-2 group">
           <Image src="/logo1.png" alt="logo" width={50} height={50} className="group-hover:scale-105 transition-transform" />
