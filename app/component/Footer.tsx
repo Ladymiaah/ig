@@ -10,7 +10,7 @@ export default function Footer() {
       <div className="max-w-6xl mx-auto px-6 sm:px-8">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
           <div className="flex items-center gap-3">
-            <Image src="/logo1.png" alt="logo" width={40} height={40} />
+            <Image src="/logo.png" alt="logo" width={40} height={40} />
             <div>
               <div className="text-lg font-semibold text-accent">Invoice</div>
               <div className="text-sm text-gray-300">Simple invoicing for freelancers & teams</div>
