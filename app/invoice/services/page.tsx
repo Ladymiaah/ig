@@ -64,6 +64,11 @@ export default function ServiceInvoicePage() {
     }
   }, [formData, tableData, isMounted]);
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev: any) => ({ ...prev, [name]: value }));
+  };
+
   const totalAmount = tableData.reduce((acc: number, item: any) => acc + (Number(item.amount) || 0), 0);
 
   if (!isMounted) return null;
@@ -143,6 +148,21 @@ export default function ServiceInvoicePage() {
                       <textarea name="clientAddress" value={formData.clientAddress} onChange={(e)=>setFormData({...formData, clientAddress: e.target.value})} placeholder="Client Address" className="w-full text-sm outline-none text-[#64748b] h-20 resize-none" />
                    </div>
                 </div>
+                {/* DATE & DETAILS BOX - Optimized for mobile touch targets */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 bg-[#f8fafc] p-4 md:p-5 rounded-xl border border-[#e2e8f0]">
+                <div className="border-b sm:border-b-0 sm:border-r border-[#e2e8f0] pb-2 sm:pb-0 sm:pr-2">
+                    <label className="block text-[10px] font-bold text-[#94a3b8] uppercase mb-1">Invoice #</label>
+                    <input name="invoiceNumber" value={formData.invoiceNumber} onChange={handleInputChange} className="bg-transparent font-medium outline-none w-full text-sm md:text-base" />
+                </div>
+                <div className="border-b sm:border-b-0 sm:border-r border-[#e2e8f0] pb-2 sm:pb-0 sm:px-2">
+                    <label className="block text-[10px] font-bold text-[#94a3b8] uppercase mb-1">Issued Date</label>
+                    <input type="date" name="invoiceDate" value={formData.invoiceDate} onChange={handleInputChange} className="bg-transparent outline-none w-full text-sm md:text-base" />
+                </div>
+                <div className="pt-2 sm:pt-0 sm:pl-2">
+                    <label className="block text-[10px] font-bold text-[#94a3b8] uppercase mb-1">Due Date</label>
+                    <input type="date" name="invoiceDueDate" value={formData.invoiceDueDate} onChange={handleInputChange} className="bg-transparent outline-none w-full text-sm md:text-base" />
+                </div>
+            </div>
                 <FormTable tableData={tableData} setTableData={setTableData} />
                 <button type="button" onClick={() => setIsPreview(true)} className="bg-[#7e22ce] text-white px-8 py-3 rounded-xl font-bold">Preview</button>
              </form>
