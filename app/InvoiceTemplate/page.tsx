@@ -104,7 +104,7 @@ export default function InvoiceTemplatePage() {
         <p className="text-[#64748b]">
   Need a custom layout? {" "}
   <a 
-    href="mailto:doyinmariam001@gmail.com" 
+    href="mailto:zamtinvoice@gmail.com" 
     className="text-[#7e22ce] font-bold hover:underline"
   >
     Contact ZIG 
