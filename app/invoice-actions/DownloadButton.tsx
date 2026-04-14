@@ -18,19 +18,31 @@ export default function DownloadButton({ contentRef, fileName = "invoice" }: Dow
     pageStyle: `
       @media print {
         @page { size: auto; margin: 0; }
+        
+        /* Keep your original visibility logic */
         body * { visibility: hidden; }
+        
         #invoice-download-area,
         #invoice-download-area * {
           visibility: visible;
         }
+
         #invoice-download-area {
           position: absolute;
           left: 0;
           top: 0;
           width: 100%;
         }
-        button, nav, header, footer {
+
+        /* SURGICAL FIX FOR MOBILE: 
+           This specifically targets navbars and buttons 
+           without touching your invoice internal styling.
+        */
+        nav, header, footer, button, .action-bar, [role="navigation"] {
           display: none !important;
+          opacity: 0 !important;
+          height: 0 !important;
+          overflow: hidden !important;
         }
       }
     `,
