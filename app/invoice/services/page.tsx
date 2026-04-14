@@ -70,6 +70,8 @@ export default function ServiceInvoicePage() {
   };
 
   const totalAmount = tableData.reduce((acc: number, item: any) => acc + (Number(item.amount) || 0), 0);
+  const hasValidItems = tableData.length > 0 && tableData.every((item: any) => item.itemDescription?.trim().length > 0);
+  const canTogglePreview = isPreview || hasValidItems;
 
   if (!isMounted) return null;
 
@@ -91,8 +93,9 @@ export default function ServiceInvoicePage() {
 
         <div className="flex items-center w-full sm:w-auto gap-2">
           <button 
-            onClick={() => setIsPreview(!isPreview)}
-            className="flex-1 sm:flex-none flex items-center justify-center gap-2 font-semibold rounded-lg py-2 px-4 bg-[#f1f5f9] hover:bg-[#e2e8f0] transition-colors text-sm"
+            onClick={() => canTogglePreview && setIsPreview(!isPreview)}
+            disabled={!canTogglePreview}
+            className="flex-1 sm:flex-none flex items-center justify-center gap-2 font-semibold rounded-lg py-2 px-4 bg-[#f1f5f9] hover:bg-[#e2e8f0] transition-colors text-sm disabled:opacity-50 disabled:cursor-not-allowed"
           >    
             {isPreview ? <><Edit size={16} /> Edit</> : <><FileText size={16} /> Preview</>}
           </button>
@@ -119,7 +122,7 @@ export default function ServiceInvoicePage() {
       </div>
 
       {isPreview ? (
-        <div ref={invoiceRef} className="w-full">
+        <div ref={invoiceRef} id="invoice-download-area" className="w-full">
            {/* Passing isPreview={false} so the template knows NOT to show buttons inside */}
            <FormPreview data={formData} items={tableData} isPreview={false} />
         </div>
@@ -164,7 +167,19 @@ export default function ServiceInvoicePage() {
                 </div>
             </div>
                 <FormTable tableData={tableData} setTableData={setTableData} />
-                <button type="button" onClick={() => setIsPreview(true)} className="bg-[#7e22ce] text-white px-8 py-3 rounded-xl font-bold">Preview</button>
+                <div className="space-y-3">
+                  <button
+                    type="button"
+                    onClick={() => hasValidItems && setIsPreview(true)}
+                    disabled={!hasValidItems}
+                    className="bg-[#7e22ce] text-white px-8 py-3 rounded-xl font-bold disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-700"
+                  >
+                    Preview
+                  </button>
+                  {!hasValidItems && (
+                    <p className="text-sm text-red-600">Item description is required for every line item before preview.</p>
+                  )}
+                </div>
              </form>
         </div>
       )}

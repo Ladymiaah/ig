@@ -31,7 +31,7 @@ export default function FormPreview({ data, items }: FormPreviewProps) {
         </div>
         <div className="text-right">
           <h2 className="text-5xl font-black text-[#f1f5f9] absolute top-10 right-10 -z-0 select-none">INVOICE</h2>
-          <div className="relative z-10">
+          <div className="relative z-10 mt-15 ">
             <p className="text-[#94a3b8] text-xs font-bold uppercase tracking-widest">Invoice Number</p>
             <p className="text-xl font-bold text-[#1e293b]">#{data.invoiceNumber || "---"}</p>
           </div>
