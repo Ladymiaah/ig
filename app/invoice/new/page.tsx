@@ -58,11 +58,14 @@ export default function InvoicePage() {
     }
   }, [formData, tableData, isMounted]);
 
-  
-const totalAmount = (tableData || []).reduce(
-  (acc: number, item: any) => acc + (Number(item.amount) || 0), 
-  0
-);
+  const totalAmount = (tableData || []).reduce(
+    (acc: number, item: any) => acc + (Number(item.amount) || 0), 
+    0
+  );
+
+  const hasValidItems = tableData.length > 0 && tableData.every((item: any) => item.itemDescription?.trim().length > 0);
+  const canTogglePreview = isPreview || hasValidItems;
+
   if (!isMounted) return null;
 
   return (
@@ -80,8 +83,9 @@ const totalAmount = (tableData || []).reduce(
 
         <div className="flex items-center gap-2">
           <button 
-            onClick={() => setIsPreview(!isPreview)}
-            className="flex items-center justify-center gap-2 font-semibold rounded-lg py-2 px-4 bg-[#f1f5f9] hover:bg-[#e2e8f0] transition-colors text-sm"
+            onClick={() => canTogglePreview && setIsPreview(!isPreview)}
+            disabled={!canTogglePreview}
+            className="flex items-center justify-center gap-2 font-semibold rounded-lg py-2 px-4 bg-[#f1f5f9] hover:bg-[#e2e8f0] transition-colors text-sm disabled:opacity-50 disabled:cursor-not-allowed"
           >    
             {isPreview ? <><Edit size={16} /> Edit</> : <><FileText size={16} /> Preview</>}
           </button>
@@ -109,7 +113,7 @@ const totalAmount = (tableData || []).reduce(
 
       {/* CONTENT AREA */}
       {isPreview ? (
-        <div ref={invoiceRef} className="w-full max-w-4xl mx-auto">
+        <div ref={invoiceRef} id="invoice-download-area" className="w-full max-w-4xl mx-auto">
            <FormPreview data={formData} items={tableData} isPreview={false} />
         </div>
       ) : (
@@ -148,8 +152,20 @@ const totalAmount = (tableData || []).reduce(
             <FormTable tableData={tableData} setTableData={setTableData} />
           </div>
 
-          <div className="mt-10 flex justify-between items-center border-t pt-6">
-            <button onClick={() => setIsPreview(true)} className="bg-[#6b21a8] text-[#ffffff] px-8 py-3 rounded-xl font-bold shadow-lg">Preview Invoice</button>
+          <div className="mt-10 flex flex-col gap-4 border-t pt-6 md:flex-row md:items-center md:justify-between">
+            <div className="flex flex-col gap-3">
+              <button
+                type="button"
+                onClick={() => hasValidItems && setIsPreview(true)}
+                disabled={!hasValidItems}
+                className="bg-[#6b21a8] text-[#ffffff] px-8 py-3 rounded-xl font-bold shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-700"
+              >
+                Preview Invoice
+              </button>
+              {!hasValidItems && (
+                <p className="text-sm text-red-600">Enter item descriptions for all rows before previewing.</p>
+              )}
+            </div>
             <div className="text-right">
                 <p className="text-[#94a3b8] text-xs font-bold uppercase">Total Due</p>
                 <p className="text-3xl font-black text-[#6b21a8]">₦{totalAmount.toLocaleString()}</p>

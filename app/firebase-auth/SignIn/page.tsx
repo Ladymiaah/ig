@@ -3,6 +3,7 @@
 import { useMessage } from "@/app/providers/MessageProvider";
 import { auth, googleProvider } from "@/lib/firebase";
 import { signInWithPopup } from "firebase/auth";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FcGoogle } from "react-icons/fc";
 
@@ -41,9 +42,9 @@ export default function SignupPage() {
 
         <p className="mt-6 text-sm text-slate-600">
           Already have an account?{" "}
-          <a href="/login" className="text-blue-600 font-bold hover:underline">
+           <Link href="/firebase-auth/Login"  className="text-blue-600 font-bold hover:underline">
             Log in
-          </a>
+          </Link>
         </p>
       </div>
     </div>

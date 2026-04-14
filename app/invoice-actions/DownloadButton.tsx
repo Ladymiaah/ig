@@ -15,6 +15,25 @@ export default function DownloadButton({ contentRef, fileName = "invoice" }: Dow
   const handlePrint = useReactToPrint({
     contentRef: contentRef,
     documentTitle: fileName,
+    pageStyle: `
+      @media print {
+        @page { size: auto; margin: 0; }
+        body * { visibility: hidden; }
+        #invoice-download-area,
+        #invoice-download-area * {
+          visibility: visible;
+        }
+        #invoice-download-area {
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 100%;
+        }
+        button, nav, header, footer {
+          display: none !important;
+        }
+      }
+    `,
     onBeforePrint: async () => setIsGenerating(true),
     onAfterPrint: () => setIsGenerating(false),
     onPrintError: () => setIsGenerating(false),

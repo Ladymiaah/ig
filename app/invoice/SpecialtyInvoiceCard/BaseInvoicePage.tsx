@@ -70,6 +70,9 @@ export default function BaseInvoicePage({ type, accentColor, storageKey, label }
     ? subTotal + (subTotal * (Number(formData.lateFee) / 100)) 
     : subTotal;
 
+  const hasValidItems = tableData.length > 0 && tableData.every((item: any) => item.itemDescription?.trim().length > 0);
+  const canTogglePreview = isPreview || hasValidItems;
+
   if (!isMounted) return null;
 
   return (
@@ -86,7 +89,11 @@ export default function BaseInvoicePage({ type, accentColor, storageKey, label }
         </div>
 
         <div className="flex items-center gap-2">
-          <button onClick={() => setIsPreview(!isPreview)} className="flex items-center gap-2 font-semibold rounded-lg py-2 px-4 bg-[#f1f5f9] hover:bg-[#e2e8f0] transition-colors">
+          <button
+            onClick={() => canTogglePreview && setIsPreview(!isPreview)}
+            disabled={!canTogglePreview}
+            className="flex items-center gap-2 font-semibold rounded-lg py-2 px-4 bg-[#f1f5f9] hover:bg-[#e2e8f0] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          >
             {isPreview ? <><Edit size={16} /> Edit Form</> : <><FileText size={16} /> Preview</>}
           </button>
           
@@ -117,7 +124,7 @@ export default function BaseInvoicePage({ type, accentColor, storageKey, label }
       </div>
 
       {isPreview ? (
-        <div ref={invoiceRef}>
+        <div ref={invoiceRef} id="invoice-download-area">
            <SpecialtyFormPreview 
              data={formData} 
              items={tableData} 
@@ -233,18 +240,26 @@ export default function BaseInvoicePage({ type, accentColor, storageKey, label }
             
             {/* Form Footer / Summary */}
             <div className="pt-6 border-t border-[#e2e8f0] flex flex-col md:flex-row justify-between items-center gap-6">
-               <button 
-                 type="button" 
-                 onClick={() => setIsPreview(true)} 
-                 className="order-2 md:order-1 text-[#ffffff] px-8 py-3 rounded-xl font-bold transition-transform hover:scale-105 active:scale-95 shadow-lg" 
-                 style={{ backgroundColor: accentColor }}>
-                 Generate Preview
-               </button>
-               <div className="text-right">
+               <div className="space-y-3 md:space-y-0 md:flex  md:items-center md:gap-4">
+              <div className="space-y-3 ">
+                <button 
+                  type="button" 
+                  onClick={() => hasValidItems && setIsPreview(true)} 
+                  disabled={!hasValidItems}
+                  className="order-2 md:order-1 text-[#ffffff] px-8 py-3 rounded-xl font-bold transition-transform hover:scale-105 active:scale-95 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none"
+                  style={{ backgroundColor: accentColor }}>
+                  Generate Preview
+                </button>
+                {!hasValidItems && (
+                  <p className="text-sm text-red-600">Please enter an item description before generating preview.</p>
+                )}
+              </div>
+              <div className="text-right">
                   <p className="text-[#94a3b8] text-[10px] uppercase font-bold tracking-widest">{type === "credit" ? "Total Refund" : "Grand Total"}</p>
                   <p className="text-3xl font-black" style={{ color: accentColor }}>₦{totalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
                </div>
               </div>
+            </div>
           </form>
         </div>
       )}
