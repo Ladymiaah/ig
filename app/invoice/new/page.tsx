@@ -16,40 +16,46 @@ export default function InvoicePage() {
   const [isPreview, setIsPreview] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   
+  // FIXED: Added explicit fallback return for build-time
   const [formData, setFormData] = useState(() => {
     if (typeof window !== "undefined") {
       const saved = localStorage.getItem("invoice-form-data");
-      return saved ? JSON.parse(saved) : {
-        logoUrl: "",
-        companyName: "",
-        invoiceAuthor: "",
-        companyAddress: "",
-        companyCity: "",
-        companyCountry: "",
-        clientCompany: "",
-        clientAddress: "",
-        invoiceNumber: "",
-        invoiceDate: new Date().toISOString().split('T')[0],
-        invoiceDueDate: "",
-      };
+      if (saved) return JSON.parse(saved);
     }
+    return {
+      logoUrl: "",
+      companyName: "",
+      invoiceAuthor: "",
+      companyAddress: "",
+      companyCity: "",
+      companyCountry: "",
+      clientCompany: "",
+      clientAddress: "",
+      invoiceNumber: "",
+      invoiceDate: new Date().toISOString().split('T')[0],
+      invoiceDueDate: "",
+    };
   });
 
+  // FIXED: Added explicit fallback return for build-time
   const [tableData, setTableData] = useState(() => {
     if (typeof window !== "undefined") {
       const saved = localStorage.getItem("invoice-table-data");
-      return saved ? JSON.parse(saved) : [{
-        id: crypto.randomUUID(),
-        itemDescription: "",
-        qty: 1,
-        unitPrice: 0,
-        tax: 0,
-        amount: 0,
-      }];
+      if (saved) return JSON.parse(saved);
     }
+    return [{
+      id: "initial-id", // crypto.randomUUID() can fail in some build environments
+      itemDescription: "",
+      qty: 1,
+      unitPrice: 0,
+      tax: 0,
+      amount: 0,
+    }];
   });
 
-  useEffect(() => { setIsMounted(true); }, []);
+  useEffect(() => { 
+    setIsMounted(true); 
+  }, []);
 
   useEffect(() => {
     if (isMounted) {
@@ -58,12 +64,16 @@ export default function InvoicePage() {
     }
   }, [formData, tableData, isMounted]);
 
+  // SAFE ACCESS: Ensuring tableData is treated as an array
   const totalAmount = (tableData || []).reduce(
     (acc: number, item: any) => acc + (Number(item.amount) || 0), 
     0
   );
 
-  const hasValidItems = tableData.length > 0 && tableData.every((item: any) => item.itemDescription?.trim().length > 0);
+  // SAFE ACCESS: Added optional chaining and fallbacks to prevent "length of undefined"
+  const hasValidItems = (tableData?.length > 0) && 
+    tableData.every((item: any) => item?.itemDescription?.trim()?.length > 0);
+    
   const canTogglePreview = isPreview || hasValidItems;
 
   if (!isMounted) return null;
@@ -104,9 +114,11 @@ export default function InvoicePage() {
           )}
 
           <ResetButton onReset={() => {
-            localStorage.removeItem("invoice-form-data");
-            localStorage.removeItem("invoice-table-data");
-            window.location.reload();
+            if (typeof window !== "undefined") {
+              localStorage.removeItem("invoice-form-data");
+              localStorage.removeItem("invoice-table-data");
+              window.location.reload();
+            }
           }} />
         </div>
       </div>
