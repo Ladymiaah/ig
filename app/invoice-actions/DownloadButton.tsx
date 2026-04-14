@@ -17,32 +17,42 @@ export default function DownloadButton({ contentRef, fileName = "invoice" }: Dow
     documentTitle: fileName,
     pageStyle: `
       @media print {
-        @page { size: auto; margin: 0; }
-        
-        /* Keep your original visibility logic */
-        body * { visibility: hidden; }
-        
+        /* 1. Reset Page Margins */
+        @page { 
+          size: auto; 
+          margin: 0mm; 
+        }
+
+        /* 2. Hide everything by default */
+        body * { 
+          visibility: hidden !important; 
+        }
+
+        /* 3. Show only the invoice area */
         #invoice-download-area,
         #invoice-download-area * {
-          visibility: visible;
+          visibility: visible !important;
         }
 
-        #invoice-download-area {
-          position: absolute;
-          left: 0;
-          top: 0;
-          width: 100%;
-        }
-
-        /* SURGICAL FIX FOR MOBILE: 
-           This specifically targets navbars and buttons 
-           without touching your invoice internal styling.
-        */
-        nav, header, footer, button, .action-bar, [role="navigation"] {
+        /* 4. Fix for Mobile: Completely remove the UI "boxes" from the layout */
+        /* We target common tags and the specific layout classes used in your page */
+        nav, header, footer, button, .max-w-5xl, aside {
           display: none !important;
-          opacity: 0 !important;
           height: 0 !important;
-          overflow: hidden !important;
+          margin: 0 !important;
+          padding: 0 !important;
+        }
+
+        /* 5. Force the preview to the top-left of the PDF */
+        #invoice-download-area {
+          position: absolute !important;
+          left: 0 !important;
+          top: 0 !important;
+          width: 100% !important;
+          margin: 0 !important;
+          padding: 10mm !important; /* Adds a clean margin inside the PDF */
+          visibility: visible !important;
+          display: block !important;
         }
       }
     `,
